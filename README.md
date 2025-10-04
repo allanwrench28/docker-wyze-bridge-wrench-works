@@ -5,6 +5,18 @@
 
 # WebRTC/RTSP/RTMP/HLS Bridge for Wyze Cam
 
+> [!NOTE]
+> ## About This Fork
+> This is an actively maintained fork of [mrlt8/docker-wyze-bridge](https://github.com/mrlt8/docker-wyze-bridge). We stay synchronized with upstream releases and aim to provide:
+> - 📦 Regular updates synced with upstream
+> - 📚 Enhanced documentation and guides
+> - 🤝 Responsive community support
+> - 🔒 Security best practices
+>
+> **Current Version**: v2.10.3 (synced with upstream)
+>
+> **New to this project?** See [CONTRIBUTING.md](CONTRIBUTING.md) for how to contribute, [MAINTENANCE.md](MAINTENANCE.md) for maintenance procedures, and [SECURITY.md](SECURITY.md) for security guidelines.
+
 ![479shots_so](https://user-images.githubusercontent.com/67088095/224595527-05242f98-c4ab-4295-b9f5-07051ced1008.png)
 
 
@@ -308,3 +320,100 @@ Video Streaming:
 General Wyze:
 
 * [shauntarves/wyze-sdk](https://github.com/shauntarves/wyze-sdk) - python library to interact with wyze devices over the cloud.
+
+---
+
+## Fork-Specific Resources
+
+### Documentation
+
+This fork provides additional documentation to help maintain and contribute to the project:
+
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributing to this fork
+  - How to report issues effectively
+  - Development setup and testing procedures
+  - Code style and PR guidelines
+  - Relationship with upstream
+
+- **[MAINTENANCE.md](MAINTENANCE.md)** - Maintainer procedures and schedules
+  - Regular maintenance tasks (weekly, monthly, quarterly)
+  - Syncing with upstream
+  - Release process
+  - Issue and PR management
+
+- **[SECURITY.md](SECURITY.md)** - Security best practices and reporting
+  - Network security recommendations
+  - Authentication best practices
+  - Secure configuration examples
+  - Vulnerability reporting process
+
+- **[CHANGELOG.md](CHANGELOG.md)** - Fork-specific changes and updates
+  - Track fork maintenance activities
+  - Document sync points with upstream
+  - Version history
+
+### Community & Support
+
+- **Issues**: Report bugs or request features via [GitHub Issues](https://github.com/allanwrench28/docker-wyze-bridge-wrench-works/issues)
+- **Discussions**: For questions and community support
+- **Upstream**: Check [mrlt8/docker-wyze-bridge](https://github.com/mrlt8/docker-wyze-bridge) for the original project
+
+### Quick Troubleshooting Guide
+
+#### Common Issues and Solutions
+
+**Camera not connecting:**
+1. Verify camera is online in Wyze app
+2. Check `WYZE_EMAIL` and `WYZE_PASSWORD` are correct
+3. Ensure API Key and API ID are set (required as of May 2024)
+4. Review logs: `docker logs wyze-bridge`
+5. Try restarting the container
+
+**Stream not accessible:**
+1. Check port mappings in docker-compose.yml
+2. Verify firewall rules allow connections
+3. Test locally first: `http://localhost:5000`
+4. Enable `STREAM_AUTH` if needed for remote access
+
+**Authentication issues:**
+1. Get API Key and ID from https://support.wyze.com/hc/en-us/articles/16129834216731
+2. Set `API_ID` and `API_KEY` environment variables
+3. Clear tokens directory and restart: `rm -rf tokens/*`
+4. Check for Wyze account 2FA settings
+
+**Poor performance or stuttering:**
+1. Check camera WiFi signal strength in Wyze app
+2. Adjust bitrate: Set `QUALITY=HD` or `QUALITY=SD`
+3. Reduce FPS if needed
+4. Check Docker host resources (CPU, memory, network)
+
+**Home Assistant integration issues:**
+1. Ensure bridge is accessible from Home Assistant
+2. Use correct stream URLs: `rtsp://ip:8554/camera-name`
+3. Check HA logs for connection errors
+4. Verify camera names match (no spaces, use hyphens)
+
+For more detailed troubleshooting, see the [upstream wiki](https://github.com/mrlt8/docker-wyze-bridge/wiki).
+
+### Fork Maintenance Status
+
+This fork is actively maintained with:
+- Weekly checks for upstream updates
+- Monthly reviews of issues and pull requests  
+- Quarterly comprehensive testing and documentation updates
+
+Last sync with upstream: **v2.10.3** (Allow self-signed certificates)
+
+### Contributing to This Fork
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for:
+- How to report issues
+- Suggesting enhancements
+- Submitting pull requests
+- Development setup
+
+Major features should ideally be contributed to [upstream](https://github.com/mrlt8/docker-wyze-bridge) first to benefit the entire community.
+
+---
+
+**Thank you to [@mrlt8](https://github.com/mrlt8) and all upstream contributors for creating and maintaining this excellent project!** 🙏
