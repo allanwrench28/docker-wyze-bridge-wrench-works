@@ -1,0 +1,96 @@
+version: "3.8"
+
+services:
+  wyze-bridge:
+    container_name: wyze-bridge
+    restart: unless-stopped
+    image: mrlt8/wyze-bridge:latest
+    ports:
+      - "8554:8554"   # RTSP port (main)  
+      - "8888:8888"   # HLS (optional for web viewing)
+      - "5000:5000"   # Web UI
+      - "1935:1935"   # RTMP (optional)
+    environment:
+      # Wyze Account Credentials
+      - WYZE_EMAIL=your-email@example.com
+      - WYZE_PASSWORD=your-password
+      - API_ID=your-api-id
+      - API_KEY=your-api-key
+      
+      # Connection Timeout Fix (addresses your IOTC_ER_TIMEOUT issue)
+      - CONNECT_TIMEOUT=60        # Increased from default 20 seconds
+      - RESEND=0                  # Disable retransmission for better connection
+      
+      # Network Configuration
+      - NET_MODE=any              # Allow P2P/RELAY/LAN modes
+      # - WB_IP=192.168.0.100     # Uncomment and set your bridge host IP
+      
+      # RTSP Configuration
+      - RTSP_SIMPLE_SERVER=true   # Enable RTSP server
+      - RTSP_READTIMEOUT=60s      # RTSP read timeout
+      - RTSP_WRITETIMEOUT=60s     # RTSP write timeout
+      
+      # Camera Quality Settings
+      - QUALITY=HD120             # HD quality with 120kbps bitrate
+      # - QUALITY=HD180           # Alternative: HD with 180kbps
+      # - QUALITY=SD120           # Lower quality option
+      
+      # Audio (optional)
+      - AUDIO=false               # Set to true if you want audio in RTSP
+      
+      # Web UI Authentication
+      - WB_AUTH=true              # Enable/disable web authentication
+      # - WB_USERNAME=admin       # Custom web username (optional)
+      # - WB_PASSWORD=admin       # Custom web password (optional)
+      
+      # Camera-Specific Settings for Pan V3 (addressing your specific camera)
+      - PANV3_QUALITY=HD120       # Specific quality for your Pan V3
+      - PANV3_NET_MODE=any        # Allow any connection mode for Pan V3
+      
+      # Logging and Debug
+      - LIBCAMERA_LOG_LEVEL=2     # Reduce log verbosity
+      
+      # Optional: Motion Detection
+      # - MOTION_API=true         # Enable motion detection API
+      # - MOTION_START=true       # Start streaming on motion
+      
+      # Optional: Snapshot Settings
+      # - SNAPSHOT=rtsp           # Enable RTSP snapshots
+      # - IMG_DIR=snapshots       # Directory for snapshots
+      
+    volumes:
+      # Optional: Persist tokens and config
+      - ./tokens:/tokens
+      # Optional: Store snapshots locally
+      # - ./snapshots:/img
+      
+    # Optional: Network mode for better local network access
+    # network_mode: host
+    
+    # Resource limits (optional)
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+
+# Optional: Additional services you might want
+
+  # RTSP Viewer/Recorder (optional)
+  # frigate:
+  #   container_name: frigate
+  #   image: ghcr.io/blakeblackshear/frigate:stable
+  #   depends_on:
+  #     - wyze-bridge
+  #   volumes:
+  #     - ./frigate.yml:/config/config.yml
+  #     - /etc/localtime:/etc/localtime:ro
+  #   ports:
+  #     - "5001:5000"
+  #   environment:
+  #     - FRIGATE_RTSP_PASSWORD=password
+
+networks:
+  default:
+    name: wyze-network
