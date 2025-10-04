@@ -137,6 +137,10 @@ class WyzeIOTC:
     def session(self, stream, state) -> "WyzeIOTCSession":
         if stream.options.substream:
             stream.user.phone_id = stream.user.phone_id[2:]
+        
+        # Import here to avoid circular imports
+        from wyzebridge.config import CONNECT_TIMEOUT
+        
         return WyzeIOTCSession(
             self.tutk_platform_lib,
             stream.user,
@@ -144,6 +148,7 @@ class WyzeIOTC:
             frame_size=stream.options.frame_size,
             bitrate=stream.options.bitrate,
             enable_audio=stream.options.audio,
+            connect_timeout=CONNECT_TIMEOUT,
             stream_state=state,
             substream=stream.options.substream,
         )
