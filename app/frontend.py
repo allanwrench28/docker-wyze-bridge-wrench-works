@@ -39,11 +39,25 @@ def create_app():
 
         return wrapped_view
 
+    @app.route("/setup")
+    def setup_wizard():
+        """Enhanced setup wizard page."""
+        if wb.api.auth:
+            return redirect(url_for("index"))
+        return render_template(
+            "setup.html",
+            api=WbAuth.api,
+            version=config.VERSION,
+        )
+
     @app.route("/login", methods=["GET", "POST"])
     def wyze_login():
         if wb.api.auth:
             return redirect(url_for("index"))
         if request.method == "GET":
+            # Check if user wants the setup wizard
+            if request.args.get("wizard") or request.args.get("setup"):
+                return redirect(url_for("setup_wizard"))
             return render_template(
                 "login.html",
                 api=WbAuth.api,
@@ -252,6 +266,89 @@ def create_app():
         resp = make_response(render_template("m3u8.html", cameras=cameras))
         resp.headers.set("content-type", "application/x-mpegURL")
         return resp
+
+    @app.route("/api/rtsp/urls")
+    @auth_required
+    def rtsp_urls():
+        """Get all RTSP URLs in JSON format."""
+        from wyzebridge.rtsp_generator import create_generator_from_streams
+        generator = create_generator_from_streams(wb.streams)
+        return generator.get_all_rtsp_urls()
+
+    @app.route("/api/rtsp/export")
+    @auth_required
+    def rtsp_export():
+        """Export RTSP URLs in various formats."""
+        from wyzebridge.rtsp_generator import create_generator_from_streams
+        
+        export_format = request.args.get("format", "json").lower()
+        generator = create_generator_from_streams(wb.streams)
+        
+        if export_format == "text":
+            content = generator.export_text()
+            content_type = "text/plain"
+            filename = "wyze_cameras.txt"
+        elif export_format == "yaml":
+            content = generator.export_yaml()
+            content_type = "text/yaml"
+            filename = "wyze_cameras.yaml"
+        elif export_format == "homeassistant" or export_format == "ha":
+            content = generator.export_home_assistant_config()
+            content_type = "text/yaml"
+            filename = "home_assistant_cameras.yaml"
+        elif export_format == "vlc" or export_format == "m3u":
+            content = generator.generate_vlc_playlist()
+            content_type = "audio/x-mpegurl"
+            filename = "wyze_cameras.m3u"
+        else:  # json
+            content = generator.export_json()
+            content_type = "application/json"
+            filename = "wyze_cameras.json"
+        
+        resp = make_response(content)
+        resp.headers["Content-Type"] = content_type
+        resp.headers["Content-Disposition"] = f'attachment; filename="{filename}"'
+        return resp
+
+    @app.route("/api/rtsp/summary")
+    @auth_required
+    def rtsp_summary():
+        """Get summary of RTSP configuration."""
+        from wyzebridge.rtsp_generator import create_generator_from_streams
+        generator = create_generator_from_streams(wb.streams)
+        return generator.get_summary()
+
+    @app.route("/api/setup/validate", methods=["POST"])
+    def validate_credentials():
+        """Validate Wyze credentials before attempting connection."""
+        data = request.get_json() or {}
+        
+        errors = []
+        
+        # Validate email
+        email = data.get("email", "").strip()
+        if not email or "@" not in email:
+            errors.append("Invalid email format")
+        
+        # Validate password
+        password = data.get("password", "").strip()
+        if not password:
+            errors.append("Password is required")
+        
+        # Validate API ID
+        api_id = data.get("api_id", "").strip()
+        if not api_id or len(api_id) != 36:
+            errors.append("API ID must be 36 characters (UUID format)")
+        
+        # Validate API Key
+        api_key = data.get("api_key", "").strip()
+        if not api_key or len(api_key) != 60:
+            errors.append("API Key must be 60 characters")
+        
+        if errors:
+            return {"valid": False, "errors": errors}, 400
+        
+        return {"valid": True, "message": "Credentials format is valid"}
 
     return app
 
