@@ -3,7 +3,10 @@
 [![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/mrlt8/wyze-bridge?sort=semver&logo=docker&logoColor=white)](https://hub.docker.com/r/mrlt8/wyze-bridge)
 [![Docker Pulls](https://img.shields.io/docker/pulls/mrlt8/wyze-bridge?logo=docker&logoColor=white)](https://hub.docker.com/r/mrlt8/wyze-bridge)
 ![GitHub Repo stars](https://img.shields.io/github/stars/mrlt8/docker-wyze-bridge?style=social)
+
 # WebRTC/RTMP/RTSP/HLS Bridge for Wyze Cam
+
+> **Note:** This is part of the actively maintained fork at [docker-wyze-bridge-wrench-works](https://github.com/allanwrench28/docker-wyze-bridge-wrench-works). See the main [README](../README.md) for fork details.
 
 ![479shots_so](https://user-images.githubusercontent.com/67088095/224595527-05242f98-c4ab-4295-b9f5-07051ced1008.png)
 
