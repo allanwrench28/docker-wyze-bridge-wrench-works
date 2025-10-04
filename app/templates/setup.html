@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="columns is-centered">
+    <div class="column is-8">
+        <div class="box">
+            <h1 class="title">🎬 Wyze Bridge Setup Wizard</h1>
+            <p class="subtitle">Let's get your Wyze cameras streaming in just a few steps!</p>
+            
+            <div id="setup-progress" class="mb-5">
+                <progress class="progress is-primary" value="0" max="100">0%</progress>
+                <p class="has-text-centered" id="progress-text">Getting started...</p>
+            </div>
+
+            <!-- Step 1: API Instructions -->
+            <div id="step-api-info" class="step-content">
+                <article class="message is-info">
+                    <div class="message-header">
+                        <p>📋 Step 1: Get Your API Credentials</p>
+                    </div>
+                    <div class="message-body">
+                        <div class="content">
+                            <p><strong>You'll need to get API credentials from Wyze first.</strong></p>
+                            
+                            <h4>How to get them:</h4>
+                            <ol>
+                                <li>
+                                    <strong>Visit the Wyze Developer Portal:</strong><br>
+                                    <a href="https://developer-api-console.wyze.com/#/apikey/view" 
+                                       target="_blank" 
+                                       class="button is-link is-small mt-2">
+                                        <span class="icon"><i class="fas fa-external-link-alt"></i></span>
+                                        <span>Open Wyze Developer Console</span>
+                                    </a>
+                                </li>
+                                <li class="mt-3">
+                                    <strong>Sign in</strong> with your Wyze account (or create a developer account)
+                                </li>
+                                <li class="mt-3">
+                                    <strong>Create an API Key</strong> (or view existing keys)
+                                </li>
+                                <li class="mt-3">
+                                    <strong>Save both values:</strong>
+                                    <ul>
+                                        <li><strong>API ID:</strong> 36 characters (UUID format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)</li>
+                                        <li><strong>API Key:</strong> 60 characters (alphanumeric)</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <article class="message is-warning mt-4">
+                                <div class="message-body">
+                                    <span class="icon"><i class="fas fa-exclamation-triangle"></i></span>
+                                    <strong>Important:</strong> Save your API Key immediately! You won't be able to see it again.
+                                </div>
+                            </article>
+                        </div>
+                        
+                        <div class="field is-grouped mt-5">
+                            <div class="control">
+                                <button class="button is-primary" onclick="showStep('credentials')">
+                                    <span class="icon"><i class="fas fa-arrow-right"></i></span>
+                                    <span>I Have My Credentials</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Step 2: Enter Credentials -->
+            <div id="step-credentials" class="step-content is-hidden">
+                <h2 class="title is-4">Step 2: Enter Your Credentials</h2>
+                <form id="setupForm">
+                    <div id="validation-errors" class="notification is-danger is-hidden">
+                        <button class="delete" onclick="hideErrors()"></button>
+                        <div class="content">
+                            <ul id="error-list"></ul>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">
+                            <span class="icon-text">
+                                <span class="icon"><i class="fas fa-envelope"></i></span>
+                                <span>Wyze Account Email</span>
+                            </span>
+                        </label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="email" name="email" id="email" 
+                                   placeholder="your-email@example.com" required>
+                            <span class="icon is-small is-left">
+                                <i class="fa fa-envelope"></i>
+                            </span>
+                        </div>
+                        <p class="help">The email address for your Wyze account</p>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">
+                            <span class="icon-text">
+                                <span class="icon"><i class="fas fa-lock"></i></span>
+                                <span>Wyze Account Password</span>
+                            </span>
+                        </label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="password" name="password" id="password" 
+                                   placeholder="Your password" required>
+                            <span class="icon is-small is-left">
+                                <i class="fa fa-lock"></i>
+                            </span>
+                        </div>
+                        <p class="help">Your Wyze account password</p>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">
+                            <span class="icon-text">
+                                <span class="icon"><i class="fas fa-fingerprint"></i></span>
+                                <span>API ID</span>
+                            </span>
+                        </label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="keyId" id="keyId" 
+                                   placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" 
+                                   pattern=".{36}" title="API ID is 36 characters" required>
+                            <span class="icon is-small is-left">
+                                <i class="fa fa-fingerprint"></i>
+                            </span>
+                        </div>
+                        <p class="help">36-character UUID from Wyze Developer Portal</p>
+                    </div>
+
+                    <div class="field">
+                        <label class="label">
+                            <span class="icon-text">
+                                <span class="icon"><i class="fas fa-key"></i></span>
+                                <span>API Key</span>
+                            </span>
+                        </label>
+                        <div class="control has-icons-left">
+                            <input class="input" type="text" name="apiKey" id="apiKey" 
+                                   placeholder="60-character alphanumeric key" 
+                                   pattern=".{60}" title="API Key is 60 characters" required>
+                            <span class="icon is-small is-left">
+                                <i class="fa fa-key"></i>
+                            </span>
+                        </div>
+                        <p class="help">60-character alphanumeric key from Wyze Developer Portal</p>
+                    </div>
+
+                    <div class="field is-grouped mt-5">
+                        <div class="control">
+                            <button type="button" class="button" onclick="showStep('api-info')">
+                                <span class="icon"><i class="fas fa-arrow-left"></i></span>
+                                <span>Back</span>
+                            </button>
+                        </div>
+                        <div class="control">
+                            <button type="button" class="button is-info" onclick="validateForm()">
+                                <span class="icon"><i class="fas fa-check"></i></span>
+                                <span>Validate Credentials</span>
+                            </button>
+                        </div>
+                        <div class="control">
+                            <button type="submit" class="button is-primary" id="submitBtn">
+                                <span class="icon"><i class="fas fa-rocket"></i></span>
+                                <span>Connect & Discover Cameras</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 3: Discovery in Progress -->
+            <div id="step-discovery" class="step-content is-hidden">
+                <div class="has-text-centered">
+                    <h2 class="title is-4">
+                        <span class="icon"><i class="fas fa-spinner fa-pulse"></i></span>
+                        Discovering Your Cameras...
+                    </h2>
+                    <p class="subtitle">This may take a moment. Please wait...</p>
+                    <progress class="progress is-primary is-large" max="100"></progress>
+                </div>
+            </div>
+
+            <!-- Step 4: Success -->
+            <div id="step-success" class="step-content is-hidden">
+                <article class="message is-success">
+                    <div class="message-header">
+                        <p>🎉 Setup Complete!</p>
+                    </div>
+                    <div class="message-body">
+                        <div class="content">
+                            <p><strong>Great! Your Wyze Bridge is now configured.</strong></p>
+                            
+                            <h4>What's Next?</h4>
+                            <div class="buttons">
+                                <a href="/" class="button is-primary">
+                                    <span class="icon"><i class="fas fa-video"></i></span>
+                                    <span>View Your Cameras</span>
+                                </a>
+                                <button class="button is-info" onclick="showRTSPUrls()">
+                                    <span class="icon"><i class="fas fa-list"></i></span>
+                                    <span>View RTSP URLs</span>
+                                </button>
+                                <a href="/api/rtsp/export?format=homeassistant" class="button is-link">
+                                    <span class="icon"><i class="fas fa-home"></i></span>
+                                    <span>Download Home Assistant Config</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+let currentStep = 'api-info';
+
+function showStep(step) {
+    // Hide all steps
+    document.querySelectorAll('.step-content').forEach(el => {
+        el.classList.add('is-hidden');
+    });
+    
+    // Show selected step
+    document.getElementById('step-' + step).classList.remove('is-hidden');
+    currentStep = step;
+    
+    // Update progress
+    const progress = {
+        'api-info': 25,
+        'credentials': 50,
+        'discovery': 75,
+        'success': 100
+    };
+    
+    const progressText = {
+        'api-info': 'Step 1: Getting API Credentials',
+        'credentials': 'Step 2: Entering Credentials',
+        'discovery': 'Step 3: Discovering Cameras',
+        'success': 'Setup Complete!'
+    };
+    
+    document.querySelector('.progress').value = progress[step];
+    document.getElementById('progress-text').textContent = progressText[step];
+}
+
+function hideErrors() {
+    document.getElementById('validation-errors').classList.add('is-hidden');
+}
+
+function showErrors(errors) {
+    const errorList = document.getElementById('error-list');
+    errorList.innerHTML = errors.map(err => `<li>${err}</li>`).join('');
+    document.getElementById('validation-errors').classList.remove('is-hidden');
+}
+
+async function validateForm() {
+    const formData = {
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        api_id: document.getElementById('keyId').value,
+        api_key: document.getElementById('apiKey').value
+    };
+    
+    hideErrors();
+    
+    try {
+        const response = await fetch('/api/setup/validate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (result.valid) {
+            alert('✅ Credentials format looks good! You can now proceed to connect.');
+        } else {
+            showErrors(result.errors);
+        }
+    } catch (error) {
+        console.error('Validation error:', error);
+        alert('Failed to validate credentials. Please check your inputs.');
+    }
+}
+
+document.getElementById('setupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    submitBtn.classList.add('is-loading');
+    hideErrors();
+    
+    showStep('discovery');
+    
+    try {
+        const formData = new FormData(e.target);
+        const response = await fetch('/login', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            showStep('success');
+            // Redirect after a delay
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+        } else {
+            showStep('credentials');
+            showErrors([result.status || 'Failed to connect. Please check your credentials.']);
+            submitBtn.classList.remove('is-loading');
+        }
+    } catch (error) {
+        console.error('Setup error:', error);
+        showStep('credentials');
+        showErrors(['An error occurred during setup. Please try again.']);
+        submitBtn.classList.remove('is-loading');
+    }
+});
+
+function showRTSPUrls() {
+    window.location.href = '/';
+}
+</script>
+{% endblock %}

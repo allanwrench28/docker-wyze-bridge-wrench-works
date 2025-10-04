@@ -1,0 +1,294 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <section class="section">
+        <h1 class="title">📖 Wyze Bridge Help & Documentation</h1>
+        
+        <div class="columns is-multiline">
+            <!-- Quick Start -->
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header has-background-primary">
+                        <p class="card-header-title has-text-white">
+                            <span class="icon"><i class="fas fa-rocket"></i></span>
+                            <span>Quick Start</span>
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <p><strong>Get started in 5 minutes!</strong></p>
+                            <ol>
+                                <li>Get API credentials from 
+                                    <a href="https://developer-api-console.wyze.com/" target="_blank">
+                                        Wyze Developer Portal
+                                    </a>
+                                </li>
+                                <li>Enter credentials in setup wizard</li>
+                                <li>Access your RTSP streams!</li>
+                            </ol>
+                            <a href="/setup" class="button is-primary is-fullwidth">
+                                <span class="icon"><i class="fas fa-magic"></i></span>
+                                <span>Run Setup Wizard</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export URLs -->
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header has-background-info">
+                        <p class="card-header-title has-text-white">
+                            <span class="icon"><i class="fas fa-download"></i></span>
+                            <span>Export RTSP URLs</span>
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <p><strong>Download camera URLs in various formats:</strong></p>
+                            <ul>
+                                <li>Plain Text - Simple list</li>
+                                <li>JSON - For APIs and scripts</li>
+                                <li>YAML - Configuration files</li>
+                                <li>VLC Playlist - Open all cameras</li>
+                                <li>Home Assistant Config - Ready to use</li>
+                            </ul>
+                            <div class="buttons">
+                                <a href="/api/rtsp/export?format=json" class="button is-info" download>
+                                    <span class="icon"><i class="fas fa-file-code"></i></span>
+                                    <span>JSON</span>
+                                </a>
+                                <a href="/api/rtsp/export?format=homeassistant" class="button is-info" download>
+                                    <span class="icon"><i class="fas fa-home"></i></span>
+                                    <span>Home Assistant</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RTSP URLs -->
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header has-background-success">
+                        <p class="card-header-title has-text-white">
+                            <span class="icon"><i class="fas fa-video"></i></span>
+                            <span>RTSP Streams</span>
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <p><strong>Your cameras are available at:</strong></p>
+                            <pre><code>rtsp://{{ request.host.split(':')[0] }}:8554/camera-name</code></pre>
+                            <p><strong>Example:</strong></p>
+                            <pre><code>rtsp://{{ request.host.split(':')[0] }}:8554/front_door</code></pre>
+                            <p class="help">Camera names replace spaces with underscores</p>
+                            <a href="/" class="button is-success is-fullwidth">
+                                <span class="icon"><i class="fas fa-list"></i></span>
+                                <span>View All Cameras</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Streams -->
+            <div class="column is-half">
+                <div class="card">
+                    <header class="card-header has-background-warning">
+                        <p class="card-header-title has-text-dark">
+                            <span class="icon"><i class="fas fa-flask"></i></span>
+                            <span>Test Your Streams</span>
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <p><strong>VLC Media Player:</strong></p>
+                            <ol>
+                                <li>Open VLC</li>
+                                <li>Media → Open Network Stream</li>
+                                <li>Paste your RTSP URL</li>
+                                <li>Click Play</li>
+                            </ol>
+                            <a href="https://www.videolan.org/vlc/" target="_blank" class="button is-warning is-fullwidth">
+                                <span class="icon"><i class="fas fa-external-link-alt"></i></span>
+                                <span>Download VLC</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home Assistant -->
+            <div class="column is-full">
+                <div class="card">
+                    <header class="card-header has-background-link">
+                        <p class="card-header-title has-text-white">
+                            <span class="icon"><i class="fas fa-home"></i></span>
+                            <span>Home Assistant Integration</span>
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="columns">
+                                <div class="column">
+                                    <h4>Method 1: Export Configuration</h4>
+                                    <ol>
+                                        <li>Click <strong>Export</strong> → <strong>Camera Config (YAML)</strong></li>
+                                        <li>Download the configuration file</li>
+                                        <li>Add content to <code>configuration.yaml</code></li>
+                                        <li>Restart Home Assistant</li>
+                                    </ol>
+                                </div>
+                                <div class="column">
+                                    <h4>Method 2: Manual Configuration</h4>
+                                    <pre><code>camera:
+  - platform: generic
+    name: "Camera Name"
+    stream_source: rtsp://{{ request.host.split(':')[0] }}:8554/camera_name
+    still_image_url: http://{{ request.host.split(':')[0] }}:5000/snapshot/camera_name.jpg
+    verify_ssl: false</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Troubleshooting -->
+            <div class="column is-full">
+                <div class="card">
+                    <header class="card-header has-background-danger">
+                        <p class="card-header-title has-text-white">
+                            <span class="icon"><i class="fas fa-wrench"></i></span>
+                            <span>Troubleshooting</span>
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="columns is-multiline">
+                                <div class="column is-half">
+                                    <article class="message is-warning">
+                                        <div class="message-header">
+                                            <p>Connection Timeout</p>
+                                        </div>
+                                        <div class="message-body">
+                                            <p><strong>Symptoms:</strong> "IOTC_ER_TIMEOUT" errors</p>
+                                            <p><strong>Solution:</strong> Add to your <code>.env</code>:</p>
+                                            <pre><code>CONNECT_TIMEOUT=90
+NET_MODE=LAN</code></pre>
+                                        </div>
+                                    </article>
+                                </div>
+                                <div class="column is-half">
+                                    <article class="message is-warning">
+                                        <div class="message-header">
+                                            <p>Can't Find Cameras</p>
+                                        </div>
+                                        <div class="message-body">
+                                            <p><strong>Check:</strong></p>
+                                            <ul>
+                                                <li>Credentials are correct</li>
+                                                <li>Cameras are online in Wyze app</li>
+                                                <li>Cameras on same network</li>
+                                            </ul>
+                                            <p><strong>Try:</strong> Clear cache and restart</p>
+                                        </div>
+                                    </article>
+                                </div>
+                                <div class="column is-half">
+                                    <article class="message is-warning">
+                                        <div class="message-header">
+                                            <p>Stream Not Playing</p>
+                                        </div>
+                                        <div class="message-body">
+                                            <p><strong>Check:</strong></p>
+                                            <ul>
+                                                <li>Web UI accessible?</li>
+                                                <li>Camera showing as "connected"?</li>
+                                                <li>Try HLS stream instead</li>
+                                            </ul>
+                                            <p><strong>Debug:</strong> <code>docker-compose logs -f</code></p>
+                                        </div>
+                                    </article>
+                                </div>
+                                <div class="column is-half">
+                                    <article class="message is-warning">
+                                        <div class="message-header">
+                                            <p>Port Already in Use</p>
+                                        </div>
+                                        <div class="message-body">
+                                            <p><strong>Solution:</strong> Change port in docker-compose.yml:</p>
+                                            <pre><code>ports:
+  - "8555:8554"</code></pre>
+                                            <p>Then use port 8555 in your URLs</p>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- API Reference -->
+            <div class="column is-full">
+                <div class="card">
+                    <header class="card-header has-background-dark">
+                        <p class="card-header-title has-text-white">
+                            <span class="icon"><i class="fas fa-code"></i></span>
+                            <span>API Reference</span>
+                        </p>
+                    </header>
+                    <div class="card-content">
+                        <div class="content">
+                            <table class="table is-fullwidth is-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Endpoint</th>
+                                        <th>Description</th>
+                                        <th>Example</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><code>/api/rtsp/urls</code></td>
+                                        <td>Get all RTSP URLs (JSON)</td>
+                                        <td><a href="/api/rtsp/urls" target="_blank">View</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>/api/rtsp/summary</code></td>
+                                        <td>Camera summary</td>
+                                        <td><a href="/api/rtsp/summary" target="_blank">View</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>/api/rtsp/export?format=...</code></td>
+                                        <td>Export (text, json, yaml, vlc, homeassistant)</td>
+                                        <td><a href="/api/rtsp/export?format=json" target="_blank">JSON</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td><code>/api</code></td>
+                                        <td>All cameras info</td>
+                                        <td><a href="/api" target="_blank">View</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back to cameras button -->
+        <div class="has-text-centered mt-5">
+            <a href="/" class="button is-primary is-large">
+                <span class="icon"><i class="fas fa-arrow-left"></i></span>
+                <span>Back to Cameras</span>
+            </a>
+        </div>
+    </section>
+</div>
+{% endblock %}

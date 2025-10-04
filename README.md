@@ -45,7 +45,21 @@ Please consider ⭐️ starring or [☕️ sponsoring](https://ko-fi.com/mrlt8) 
 See the [supported cameras](#supported-cameras) section for additional information.
 
 
-## Quick Start
+## 🚀 Quick Start
+
+**New to Wyze Bridge?** Check out our guides:
+
+- 📖 **[Quick Start Guide](QUICK_START.md)** - Get streaming in 5 minutes!
+- 📚 **[Complete Setup Guide](SETUP_GUIDE.md)** - Comprehensive walkthrough with troubleshooting
+- 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - RTSP-specific configuration
+
+### Simple Setup (3 Steps)
+
+1. **Get API Credentials** from https://developer-api-console.wyze.com/
+2. **Run Setup Wizard**: `python3 app/wyzebridge/setup_wizard.py`
+3. **Start Bridge**: `docker-compose up -d`
+
+Or follow the original quick start:
 
 Install [docker](https://docs.docker.com/get-docker/) and run:
 
