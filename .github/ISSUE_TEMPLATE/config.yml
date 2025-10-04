@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Upstream Documentation
+    url: https://github.com/mrlt8/docker-wyze-bridge/wiki
+    about: Check the upstream wiki for comprehensive documentation
+  - name: 💬 Community Discussions
+    url: https://github.com/allanwrench28/docker-wyze-bridge-wrench-works/discussions
+    about: Ask questions and discuss with the community
+  - name: 🔍 Upstream Issues
+    url: https://github.com/mrlt8/docker-wyze-bridge/issues
+    about: Check if your issue exists in the upstream repository
+  - name: 🔒 Security Issues
+    url: https://github.com/allanwrench28/docker-wyze-bridge-wrench-works/security
+    about: Report security vulnerabilities privately

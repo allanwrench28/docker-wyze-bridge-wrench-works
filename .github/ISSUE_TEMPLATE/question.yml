@@ -1,0 +1,66 @@
+name: Question
+description: Ask a question about usage or configuration
+title: "[Question]: "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your question!
+        
+        **Before asking:**
+        - Check the [README](https://github.com/allanwrench28/docker-wyze-bridge-wrench-works/blob/main/README.md)
+        - Review the [upstream wiki](https://github.com/mrlt8/docker-wyze-bridge/wiki)
+        - Search existing issues and discussions
+  
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: How do I...?
+    validations:
+      required: true
+  
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: |
+        Provide any relevant context about your setup, what you're trying to achieve, etc.
+        This helps provide better answers.
+  
+  - type: dropdown
+    id: category
+    attributes:
+      label: Question Category
+      description: What is your question about?
+      options:
+        - Installation/Setup
+        - Configuration
+        - Camera Compatibility
+        - Network/Connectivity
+        - Streaming
+        - Home Assistant Integration
+        - Authentication/Security
+        - Performance/Optimization
+        - Troubleshooting
+        - Other
+  
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What Have You Tried?
+      description: Let us know what you've already attempted or researched
+  
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I have read the README
+          required: true
+        - label: I have searched existing issues
+          required: true
+        - label: This is not a bug report (use Bug Report template instead)
+          required: true
