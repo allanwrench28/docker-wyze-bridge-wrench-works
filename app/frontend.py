@@ -50,6 +50,16 @@ def create_app():
             version=config.VERSION,
         )
 
+    @app.route("/help")
+    @auth_required
+    def help_page():
+        """Help and documentation page."""
+        return render_template(
+            "help.html",
+            api=WbAuth.api,
+            version=config.VERSION,
+        )
+
     @app.route("/login", methods=["GET", "POST"])
     def wyze_login():
         if wb.api.auth:
