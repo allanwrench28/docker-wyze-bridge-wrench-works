@@ -737,23 +737,24 @@ class WyzeIOTCSession:
                 raise tutk.TutkError(av_chan_id)
             self.av_chan_id = av_chan_id
             self.state = WyzeIOTCSessionState.CONNECTED
-        except tutk.TutkError:
+
+            logger.info(
+                f"AV Client Start: "
+                f"chan_id={self.av_chan_id} "
+                f"expected_chan={channel_id}"
+            )
+
+            self.tutk_platform_lib.avClientSetMaxBufSize(max_buf_size)
+            tutk.av_client_set_recv_buf_size(
+                self.tutk_platform_lib, self.av_chan_id, max_buf_size
+            )
+        except tutk.TutkError as e:
+            logger.warning(f"Connection failed: {e.name}")
             self._disconnect()
             raise
         finally:
             if self.state != WyzeIOTCSessionState.CONNECTED:
                 self.state = WyzeIOTCSessionState.CONNECTING_FAILED
-
-        logger.info(
-            f"AV Client Start: "
-            f"chan_id={self.av_chan_id} "
-            f"expected_chan={channel_id}"
-        )
-
-        self.tutk_platform_lib.avClientSetMaxBufSize(max_buf_size)
-        tutk.av_client_set_recv_buf_size(
-            self.tutk_platform_lib, self.av_chan_id, max_buf_size
-        )
 
     def get_auth_key(self) -> str:
         """Generate authkey using enr and mac address."""
@@ -795,18 +796,26 @@ class WyzeIOTCSession:
                     self.enable_audio,
                 )
                 if not challenge_response:
+                    logger.error("Authentication failed: No challenge response")
                     raise ValueError("AUTH_FAILED")
                 auth_response = mux.send_ioctl(challenge_response).result()
                 if auth_response["connectionRes"] == "2":
+                    logger.error("Authentication failed: ENR authentication failed")
                     raise ValueError("ENR_AUTH_FAILED")
                 if auth_response["connectionRes"] != "1":
-                    warnings.warn(f"AUTH FAILED: {auth_response}")
+                    logger.error(f"Authentication failed: {auth_response}")
                     raise ValueError("AUTH_FAILED")
                 self.camera.set_camera_info(auth_response["cameraInfo"])
 
                 mux.send_ioctl(self.set_resolving_bit()).result()
                 self.state = WyzeIOTCSessionState.AUTHENTICATION_SUCCEEDED
-        except tutk.TutkError:
+                logger.info("Authentication succeeded")
+        except tutk.TutkError as e:
+            logger.error(f"Authentication failed with TUTK error: {e.name}")
+            self._disconnect()
+            raise
+        except ValueError as e:
+            logger.error(f"Authentication failed: {e}")
             self._disconnect()
             raise
         finally:
@@ -816,18 +825,21 @@ class WyzeIOTCSession:
 
     def _disconnect(self):
         if self.av_chan_id is not None:
+            logger.debug(f"Disconnecting AV channel {self.av_chan_id}")
             tutk.av_send_io_ctrl_exit(self.tutk_platform_lib, self.av_chan_id)
             tutk.av_client_stop(self.tutk_platform_lib, self.av_chan_id)
         self.av_chan_id = None
         if self.session_id is not None:
+            logger.debug(f"Closing IOTC session {self.session_id}")
             err_no = tutk.iotc_connect_stop_by_session_id(
                 self.tutk_platform_lib, self.session_id
             )
             if err_no < 0:
-                warnings.warn(tutk.TutkError(err_no))
+                logger.warning(f"Error stopping IOTC session: {tutk.TutkError(err_no).name}")
             tutk.iotc_session_close(self.tutk_platform_lib, self.session_id)
         self.session_id = None
         self.state = WyzeIOTCSessionState.DISCONNECTED
+        logger.debug("Disconnected")
 
 
 def set_non_blocking(fd):
