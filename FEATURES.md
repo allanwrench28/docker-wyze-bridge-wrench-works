@@ -248,24 +248,14 @@ curl -X POST http://YOUR-IP:5000/api/setup/validate \
 
 ### 7. 📚 Comprehensive Documentation
 
-#### SETUP_GUIDE.md (12,335 characters)
+#### RTSP-SETUP.md
 Complete setup guide with:
-- Step-by-step API credential instructions
-- 3 installation methods
-- Configuration examples
-- VLC/FFplay testing guides
-- Home Assistant integration (2 methods)
+- Prerequisites and installation instructions
+- Step-by-step RTSP configuration
+- Testing with VLC and FFmpeg
+- Home Assistant integration
 - Troubleshooting section
-- Advanced features
-- Quick start checklist
-
-#### QUICK_START.md (5,227 characters)
-5-minute quick start with:
-- Essential 4-field setup
-- Multiple setup methods
-- Testing instructions
-- Export feature overview
-- Troubleshooting quick fixes
+- Camera names and URL examples
 
 #### In-App Help Page
 Interactive web documentation at `/help` with:
@@ -452,9 +442,7 @@ Potential future features:
 
 ## 📞 Support
 
-- **Quick Start:** [QUICK_START.md](QUICK_START.md)
-- **Full Guide:** [SETUP_GUIDE.md](SETUP_GUIDE.md)
-- **RTSP Guide:** [RTSP-SETUP.md](RTSP-SETUP.md)
+- **Setup Guide:** [RTSP-SETUP.md](RTSP-SETUP.md)
 - **Help Page:** `http://YOUR-IP:5000/help`
 - **Issues:** GitHub Issues
 

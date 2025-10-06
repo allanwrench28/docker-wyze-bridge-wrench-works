@@ -61,23 +61,9 @@ See the [supported cameras](#supported-cameras) section for additional informati
 
 **New to Wyze Bridge?** Check out our guides:
 
-- 📖 **[Quick Start Guide](QUICK_START.md)** - Get streaming in 5 minutes! (Includes prerequisite setup)
-- 📚 **[Complete Setup Guide](SETUP_GUIDE.md)** - Comprehensive walkthrough with troubleshooting
-- 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - RTSP-specific configuration
+- 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - Complete setup guide for RTSP streaming
 - 💻 **[Command Reference](COMMAND_REFERENCE.md)** - Quick reference for where to run commands
-
-### 🤔 Which Guide Should I Use?
-
-**Choose based on your situation:**
-
-| If you... | Use this guide |
-|-----------|---------------|
-| 🆕 Are brand new to this project | → [Quick Start Guide](QUICK_START.md) |
-| ❓ Don't know where to run commands | → [Command Reference](COMMAND_REFERENCE.md) |
-| 🔧 Need detailed step-by-step help | → [Complete Setup Guide](SETUP_GUIDE.md) |
-| 📺 Just want RTSP streaming quickly | → [RTSP Setup Guide](RTSP-SETUP.md) |
-| 💻 Want to contribute code | → [Contributing Guide](CONTRIBUTING.md) |
-| ❌ Getting "command not found" errors | → [Command Reference](COMMAND_REFERENCE.md) |
+- 💻 **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to this project
 
 > **📝 Note:** All commands in this guide should be run in your terminal/command prompt:
 > - **Windows:** Command Prompt or PowerShell (NOT Python terminal)
@@ -393,26 +379,18 @@ General Wyze:
 
 This fork provides additional documentation to help maintain and contribute to the project:
 
-- **[QUICK_START.md](QUICK_START.md)** - 5-minute setup guide
+- **[RTSP-SETUP.md](RTSP-SETUP.md)** - Complete setup guide
   - Prerequisites with installation instructions
-  - Three setup methods to choose from
-  - Clear terminal/command prompt guidance
-
-- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Complete setup walkthrough
-  - Understanding command line environments
-  - Step-by-step installation
-  - Comprehensive troubleshooting
+  - Step-by-step RTSP configuration
+  - Testing with VLC and FFmpeg
+  - Home Assistant integration
+  - Troubleshooting
 
 - **[COMMAND_REFERENCE.md](COMMAND_REFERENCE.md)** - Command reference guide
   - Where to run different types of commands
   - Prerequisites checklist
   - Common tasks step-by-step
   - Troubleshooting "command not found" errors
-
-- **[RTSP-SETUP.md](RTSP-SETUP.md)** - RTSP-specific setup
-  - Quick RTSP configuration
-  - Testing with VLC and FFmpeg
-  - Home Assistant integration
 
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributing to this fork
   - How to report issues effectively
