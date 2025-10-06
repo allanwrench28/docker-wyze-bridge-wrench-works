@@ -4,15 +4,78 @@ Welcome to the complete setup guide for Wyze Bridge! This guide will walk you th
 
 ## 📋 Table of Contents
 
-1. [Prerequisites](#prerequisites)
-2. [Getting Your API Credentials](#getting-your-api-credentials)
-3. [Installation Methods](#installation-methods)
-4. [Configuration](#configuration)
-5. [Accessing Your Streams](#accessing-your-streams)
-6. [Home Assistant Integration](#home-assistant-integration)
-7. [Testing Your Streams](#testing-your-streams)
-8. [Troubleshooting](#troubleshooting)
-9. [Advanced Features](#advanced-features)
+1. [Understanding Your Command Line](#understanding-your-command-line)
+2. [Prerequisites](#prerequisites)
+3. [Getting Your API Credentials](#getting-your-api-credentials)
+4. [Installation Methods](#installation-methods)
+5. [Configuration](#configuration)
+6. [Accessing Your Streams](#accessing-your-streams)
+7. [Home Assistant Integration](#home-assistant-integration)
+8. [Testing Your Streams](#testing-your-streams)
+9. [Troubleshooting](#troubleshooting)
+10. [Advanced Features](#advanced-features)
+
+---
+
+## 💻 Understanding Your Command Line
+
+**Important:** This guide includes commands that you need to type and run. Here's where to run them:
+
+### Windows Users
+
+**Use one of these:**
+- ✅ **Command Prompt** (cmd.exe)
+  - How to open: Press `Win+R`, type `cmd`, press Enter
+  - Or: Start menu → Search "Command Prompt"
+  
+- ✅ **PowerShell**
+  - How to open: Press `Win+R`, type `powershell`, press Enter
+  - Or: Right-click Start menu → "Windows PowerShell"
+
+- ✅ **Git Bash** (for .sh scripts only, after installing Git)
+  - How to open: Right-click in folder → "Git Bash Here"
+
+**Do NOT use:**
+- ❌ Python IDLE
+- ❌ Python (command line)
+- ❌ Regular text editors
+
+**What goes where on Windows:**
+- **Docker commands** (`docker`, `docker-compose`) → Command Prompt or PowerShell
+- **Python scripts** (`python app/wyzebridge/setup_wizard.py`) → Command Prompt or PowerShell
+- **Bash scripts** (`./scripts/check-upstream.sh`) → Git Bash only
+- **Editing .env file** → Notepad, VS Code, or any text editor
+
+### Mac Users
+
+**Use:**
+- ✅ **Terminal** (built-in)
+  - How to open: Applications → Utilities → Terminal
+  - Or: Spotlight (`Cmd+Space`) → type "Terminal"
+
+**What to run:**
+- All commands (Docker, Python, bash scripts) → Terminal
+- Editing .env file → TextEdit, VS Code, or any text editor
+
+### Linux Users
+
+**Use:**
+- ✅ **Terminal Emulator** (varies by distribution)
+  - Common shortcut: `Ctrl+Alt+T`
+  - Or: Applications menu → Terminal
+
+**What to run:**
+- All commands (Docker, Python, bash scripts) → Terminal
+- Editing .env file → nano, vim, gedit, or any text editor
+
+### Quick Reference
+
+| Task | Windows | Mac | Linux |
+|------|---------|-----|-------|
+| Run Docker | Command Prompt / PowerShell | Terminal | Terminal |
+| Run Python script | Command Prompt / PowerShell | Terminal | Terminal |
+| Run bash script | Git Bash | Terminal | Terminal |
+| Edit .env | Notepad / VS Code | TextEdit / VS Code | nano / vim / gedit |
 
 ---
 
@@ -20,7 +83,64 @@ Welcome to the complete setup guide for Wyze Bridge! This guide will walk you th
 
 Before you begin, you'll need:
 
-- **Docker and Docker Compose** installed on your system
+### Required Software
+
+#### Docker and Docker Compose (REQUIRED)
+
+Docker runs the bridge application in a container.
+
+**Check if installed:**
+```bash
+docker --version
+docker-compose --version
+```
+
+**If not installed, download from:**
+- **Windows:** [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
+- **Mac:** [Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/)
+- **Linux:** [Docker Engine for Linux](https://docs.docker.com/engine/install/)
+
+**Verify installation:**
+```bash
+docker run hello-world
+```
+
+**Where to run Docker commands:**
+- **Windows:** Command Prompt (cmd.exe) or PowerShell - NOT Python terminal
+- **Mac:** Terminal app (Applications > Utilities > Terminal)
+- **Linux:** Any terminal emulator
+
+#### Python 3 (Optional - only for setup wizard)
+
+**Check if installed:**
+```bash
+python3 --version  # Linux/Mac
+python --version   # Windows
+```
+
+**If not installed and you want to use the setup wizard:**
+- **Windows:** [python.org/downloads](https://www.python.org/downloads/windows/) (Check "Add Python to PATH"!)
+- **Mac:** [python.org/downloads](https://www.python.org/downloads/macos/) or `brew install python3`
+- **Linux:** `sudo apt-get install python3` (Ubuntu/Debian) or `sudo dnf install python3` (Fedora)
+
+**Note:** You can skip Python if you configure manually!
+
+#### Git (Optional - for cloning repository)
+
+**Check if installed:**
+```bash
+git --version
+```
+
+**If not installed:**
+- **Windows:** [git-scm.com/download/win](https://git-scm.com/download/win)
+- **Mac:** [git-scm.com/download/mac](https://git-scm.com/download/mac) or `brew install git`
+- **Linux:** `sudo apt-get install git` (Ubuntu/Debian) or `sudo dnf install git` (Fedora)
+
+**Alternative:** Download as ZIP from [GitHub](https://github.com/allanwrench28/docker-wyze-bridge-wrench-works) instead of cloning.
+
+### Required Information
+
 - **Wyze account** with cameras registered
 - **Network access** to your cameras (same local network)
 - **Basic network information** (your computer's IP address)
@@ -64,38 +184,89 @@ Copy these values:
 
 ### Method 1: Interactive Setup Wizard (Recommended for Beginners)
 
+**Prerequisites:** Python 3 installed (see Prerequisites section above)
+
 The easiest way to get started:
 
+**Where to run these commands:**
+- **Windows:** Open "Command Prompt" (Start → type "cmd") or "PowerShell"
+  - ⚠️ Do NOT use Python IDLE or Python terminal
+  - ⚠️ Use regular Windows Command Prompt or PowerShell
+- **Mac:** Open "Terminal" (Applications → Utilities → Terminal)
+- **Linux:** Open your terminal emulator (Ctrl+Alt+T on most distributions)
+
+**Step-by-step commands:**
+
 ```bash
-# Clone the repository
+# Step 1: Clone the repository (or download ZIP from GitHub)
 git clone https://github.com/allanwrench28/docker-wyze-bridge-wrench-works.git
+
+# Step 2: Navigate into the directory
 cd docker-wyze-bridge-wrench-works
 
-# Run the setup wizard
+# Step 3: Run the setup wizard (Python script)
+# On Linux/Mac:
 python3 app/wyzebridge/setup_wizard.py
+
+# On Windows:
+python app/wyzebridge/setup_wizard.py
 ```
 
-The wizard will:
-- ✅ Guide you through entering your credentials
-- ✅ Validate the format of your API keys
-- ✅ Save everything to your `.env` file
-- ✅ Show you next steps
+**What the wizard does:**
+- ✅ Guides you through entering your credentials step-by-step
+- ✅ Validates the format of your API keys automatically
+- ✅ Saves everything to your `.env` file (no manual editing needed)
+- ✅ Shows you the next steps to start the bridge
+
+**After the wizard completes:**
+The wizard will create a `.env` file with your credentials. You can then proceed to start the bridge with Docker.
 
 ### Method 2: Manual Configuration
 
-If you prefer to configure manually:
+**Prerequisites:** A text editor (any will work: Notepad, VS Code, nano, vim, etc.)
 
+If you prefer to configure manually without Python:
+
+**Where to run commands:**
+- **Windows:** Command Prompt or PowerShell
+- **Mac:** Terminal app
+- **Linux:** Terminal emulator
+
+**Step 1: Get the repository**
 ```bash
 # Clone the repository
 git clone https://github.com/allanwrench28/docker-wyze-bridge-wrench-works.git
 cd docker-wyze-bridge-wrench-works
+```
 
-# Copy the template
+**Alternative without Git:**
+- Download ZIP from [GitHub repository](https://github.com/allanwrench28/docker-wyze-bridge-wrench-works)
+- Extract to a folder
+- Open Command Prompt/Terminal and navigate to that folder
+
+**Step 2: Copy the template**
+```bash
+# On Linux/Mac:
 cp .env.template .env
 
-# Edit with your favorite editor
-nano .env  # or vim, code, etc.
+# On Windows Command Prompt:
+copy .env.template .env
+
+# On Windows PowerShell:
+Copy-Item .env.template .env
 ```
+
+**Step 3: Edit the configuration file**
+
+Open `.env` in a text editor:
+- **Windows:** Right-click `.env` → "Open with" → Choose Notepad or VS Code
+- **Mac:** Double-click `.env` and open with TextEdit, or run `open -e .env` in Terminal
+- **Linux:** Run `nano .env` in terminal, or use your preferred text editor
+
+**Which application to use:**
+- ✅ Use any TEXT EDITOR (Notepad, TextEdit, VS Code, Sublime, nano, vim)
+- ❌ Do NOT use Word, Excel, or other document processors
+- ❌ Do NOT try to open in Python IDLE or Python terminal
 
 ---
 
@@ -337,7 +508,98 @@ Use the Web UI at `http://YOUR-IP:5000` to:
 
 ## 🔧 Troubleshooting
 
-### Issue: "Connection Timeout" or "IOTC_ER_TIMEOUT"
+### Common Setup Issues
+
+#### Issue: "command not found" Errors
+
+**Problem: `docker: command not found` or `docker-compose: command not found`**
+
+**Cause:** Docker is not installed or not in your system PATH.
+
+**Solution:**
+1. Install Docker following the [Prerequisites](#prerequisites) section
+2. After installation:
+   - **Windows:** Restart Command Prompt/PowerShell
+   - **Linux:** Log out and back in, or run:
+     ```bash
+     sudo usermod -aG docker $USER
+     ```
+3. Verify installation:
+   ```bash
+   docker --version
+   ```
+
+**Problem: `python: command not found` or `python3: command not found`**
+
+**Cause:** Python is not installed or not in your system PATH.
+
+**Solution:**
+1. Install Python following the [Prerequisites](#prerequisites) section
+2. On Windows, make sure you checked "Add Python to PATH" during installation
+3. Restart your terminal/command prompt
+4. **Alternative:** Skip the setup wizard and use manual configuration instead
+
+**Problem: `git: command not found`**
+
+**Cause:** Git is not installed.
+
+**Solution:**
+1. Install Git following the [Prerequisites](#prerequisites) section
+2. Restart your terminal/command prompt
+3. **Alternative:** Download the repository as ZIP file from GitHub instead of cloning
+
+#### Issue: "Cannot run .sh script on Windows"
+
+**Problem:** Trying to run bash scripts (`.sh` files) in Windows Command Prompt or PowerShell
+
+**Cause:** Bash scripts require a bash shell environment.
+
+**Solution:**
+- **Option 1:** Install [Git for Windows](https://git-scm.com/download/win) which includes Git Bash
+  - Right-click in folder → "Git Bash Here"
+  - Run: `./scripts/check-upstream.sh`
+- **Option 2:** Use [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install)
+- **Option 3:** Most users don't need to run these scripts - they're for maintainers
+
+#### Issue: "Permission denied" When Running Docker (Linux)
+
+**Problem:** Docker commands fail with "permission denied" error
+
+**Cause:** Your user is not in the `docker` group.
+
+**Solution:**
+```bash
+# Add your user to the docker group
+sudo usermod -aG docker $USER
+
+# Log out and back in for changes to take effect
+# Or run this in current session:
+newgrp docker
+
+# Verify it works:
+docker run hello-world
+```
+
+#### Issue: Opening Files in Wrong Application
+
+**Problem:** Trying to edit `.env` file or run scripts in the wrong application
+
+**What to use:**
+- ✅ `.env` files → Use TEXT EDITOR (Notepad, VS Code, nano, vim)
+- ✅ `.py` Python scripts → Run from COMMAND LINE/TERMINAL (not Python IDLE)
+- ✅ `.sh` Bash scripts → Run from BASH SHELL (Terminal on Mac/Linux, Git Bash on Windows)
+- ✅ Docker commands → Run from COMMAND LINE/TERMINAL
+
+**What NOT to use:**
+- ❌ Don't open `.env` in Python IDLE
+- ❌ Don't open `.env` in Word or Excel
+- ❌ Don't try to double-click `.py` files (run them from command line)
+- ❌ Don't try to run `.sh` scripts in Windows Command Prompt
+- ❌ Don't try to run Docker commands in Python IDLE
+
+### Connection and Stream Issues
+
+#### Issue: "Connection Timeout" or "IOTC_ER_TIMEOUT"
 
 **Solution 1: Increase Timeout**
 ```bash

@@ -61,19 +61,31 @@ See the [supported cameras](#supported-cameras) section for additional informati
 
 **New to Wyze Bridge?** Check out our guides:
 
-- 📖 **[Quick Start Guide](QUICK_START.md)** - Get streaming in 5 minutes!
+- 📖 **[Quick Start Guide](QUICK_START.md)** - Get streaming in 5 minutes! (Includes prerequisite setup)
 - 📚 **[Complete Setup Guide](SETUP_GUIDE.md)** - Comprehensive walkthrough with troubleshooting
 - 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - RTSP-specific configuration
 
+> **📝 Note:** All commands in this guide should be run in your terminal/command prompt:
+> - **Windows:** Command Prompt or PowerShell (NOT Python terminal)
+> - **Mac/Linux:** Terminal application
+
 ### Simple Setup (3 Steps)
 
+**Prerequisites:** [Docker](https://docs.docker.com/get-docker/) and [Python 3](https://www.python.org/downloads/) installed
+
 1. **Get API Credentials** from https://developer-api-console.wyze.com/
-2. **Run Setup Wizard**: `python3 app/wyzebridge/setup_wizard.py`
-3. **Start Bridge**: `docker-compose up -d`
+2. **Run Setup Wizard** (in Command Prompt/Terminal): 
+   ```bash
+   python3 app/wyzebridge/setup_wizard.py
+   ```
+3. **Start Bridge**:
+   ```bash
+   docker-compose up -d
+   ```
 
 Or follow the original quick start:
 
-Install [docker](https://docs.docker.com/get-docker/) and run:
+Install [docker](https://docs.docker.com/get-docker/) and run in your terminal/command prompt:
 
 ```bash
 docker run -p 8554:8554 -p 8888:8888 -p 5050:5000 -e WB_AUTH=false mrlt8/wyze-bridge
@@ -219,11 +231,24 @@ The container can be run on its own, in [Portainer](https://github.com/mrlt8/doc
 
 This is similar to the docker run command, but will save all your options in a yaml file.
 
-1. Install [Docker Compose](https://docs.docker.com/compose/install/).
-2. Use the [sample](https://raw.githubusercontent.com/mrlt8/docker-wyze-bridge/main/docker-compose.sample.yml) as a guide to create a `docker-compose.yml` file with your wyze credentials.
-3. Run `docker-compose up`.
+**Prerequisites:** [Docker and Docker Compose](https://docs.docker.com/get-docker/) installed
 
-Once you're happy with your config you can use `docker-compose up -d` to run it in detached mode.
+**Where to run commands:** Terminal/Command Prompt (NOT Python terminal)
+
+1. **Install Docker Compose** - [Installation Guide](https://docs.docker.com/compose/install/)
+   - Check if installed: `docker-compose --version`
+
+2. **Create your configuration:**
+   - Download the [sample docker-compose.yml](https://raw.githubusercontent.com/mrlt8/docker-wyze-bridge/main/docker-compose.sample.yml)
+   - Or use the provided `docker-compose.sample.yml` in this repository
+   - Edit with a text editor (Notepad, VS Code, etc.) to add your Wyze credentials
+
+3. **Start the bridge:**
+   ```bash
+   docker-compose up
+   ```
+
+Once you're happy with your config you can use `docker-compose up -d` to run it in detached mode (background).
 
 > [!CAUTION]
 > If your credentials contain a `$` character, you need to escape it with another `$` sign (e.g., `pa$$word` > `pa$$$$word`) or leave your credentials blank and use the webUI to login.
@@ -234,12 +259,22 @@ Once you're happy with your config you can use `docker-compose up -d` to run it 
 
 #### Updating your container
 
-To update your container, `cd` into the directory where your `docker-compose.yml` is located and run:
+**Where to run:** Terminal/Command Prompt (same place you ran docker-compose)
+
+To update your container, navigate to the directory where your `docker-compose.yml` is located and run:
 
 ```bash
-docker-compose pull # Pull new image
-docker-compose up -d # Restart container in detached mode
-docker image prune # Remove old images
+# Navigate to your project directory first
+cd /path/to/docker-wyze-bridge-wrench-works
+
+# Pull latest image
+docker-compose pull
+
+# Restart container in background
+docker-compose up -d
+
+# Clean up old images (optional)
+docker image prune
 ```
 
 ### 🏠 Home Assistant
