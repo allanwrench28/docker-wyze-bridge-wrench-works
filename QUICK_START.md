@@ -16,7 +16,7 @@ docker --version
 docker-compose --version
 ```
 
-**If you see version numbers, you're good! If not, install Docker:**
+**If you see version numbers, Docker is properly installed. If not, install Docker:**
 
 - **Windows:** Download [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
 - **Mac:** Download [Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/)
