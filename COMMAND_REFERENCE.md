@@ -299,10 +299,9 @@ docker run hello-world
 
 ## 📚 Related Documentation
 
-- **[Quick Start Guide](QUICK_START.md)** - Get up and running quickly
-- **[Complete Setup Guide](SETUP_GUIDE.md)** - Detailed setup instructions
-- **[RTSP Setup Guide](RTSP-SETUP.md)** - RTSP-specific configuration
-- **[Contributing Guide](CONTRIBUTING.md)** - Development setup
+- **[RTSP Setup Guide](RTSP-SETUP.md)** - Complete RTSP streaming setup with step-by-step instructions
+- **[HTTP/Browser Streaming Guide](HTTP-STREAMING.md)** - HLS, WebRTC, and browser-compatible streaming
+- **[Contributing Guide](CONTRIBUTING.md)** - Development setup and contribution guidelines
 
 ## 💡 Pro Tips
 

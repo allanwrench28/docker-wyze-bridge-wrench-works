@@ -1,3 +1,121 @@
+# Wyze Bridge HTTP/Browser Streaming Setup Guide
+
+## 🔧 Prerequisites
+
+Before starting, make sure you have:
+- **Docker and Docker Compose** installed - [Get Docker](https://docs.docker.com/get-docker/)
+- **A text editor** (Notepad, VS Code, nano, etc.)
+- **Wyze Bridge already running**  
+  If you haven't set up Wyze Bridge yet, follow these basic steps:
+  1. **Pull the Wyze Bridge Docker image:**
+     ```bash
+     docker pull mrlt8/wyze-bridge
+     ```
+  2. **Create a `docker-compose.yml` file** with at least the following content:
+     ```yaml
+     version: "3"
+     services:
+       wyze-bridge:
+         image: mrlt8/wyze-bridge
+         restart: unless-stopped
+         ports:
+           - 5000:5000
+           - 8554:8554
+           - 8888:8888
+     ```
+  3. **Start the bridge:**
+     ```bash
+     docker-compose up -d
+     ```
+
+**Check if Docker is installed:**
+```bash
+docker --version
+docker-compose --version
+```
+
+**Where to run commands:**
+- **Windows:** Command Prompt (cmd.exe) or PowerShell - NOT Python terminal
+- **Mac:** Terminal app (Applications → Utilities → Terminal)
+- **Linux:** Terminal emulator
+
+## Quick Setup Steps
+
+### 1. Verify Bridge is Running
+
+First, make sure the Wyze Bridge is running:
+
+```bash
+docker-compose ps
+```
+
+You should see the `wyze-bridge` container running.
+
+### 2. Configure Ports for HTTP Streaming
+
+Edit your `docker-compose.yml` file to ensure these ports are exposed:
+
+```yaml
+ports:
+  - 5000:5000      # Web UI and snapshots
+  - 8554:8554      # RTSP (for reference)
+  - 8888:8888      # HLS streaming
+  - 8889:8889      # WebRTC (optional)
+  - 8189:8189/udp  # WebRTC/ICE (optional)
+```
+
+**For WebRTC** (optional low-latency streaming), also add your server IP to the environment:
+
+```yaml
+environment:
+  - WB_IP=your-ip  # Replace with your actual IP
+```
+
+### 3. Restart the Bridge
+
+If you made changes to `docker-compose.yml`:
+
+```bash
+docker-compose down
+docker-compose up -d
+```
+
+### 4. Find Your Network IP
+
+**Where to run these commands:** Command Prompt/Terminal (NOT Python IDLE)
+
+```bash
+# Windows (Command Prompt):
+ipconfig
+
+# Windows (PowerShell):
+Get-NetIPAddress
+
+# Mac:
+ifconfig
+# or
+ipconfig getifaddr en0
+
+# Linux:
+ip addr show
+# or
+hostname -I
+```
+
+Look for your local IP address (usually starts with 192.168.x.x or 10.0.x.x)
+
+### 5. Access Your Streams
+
+**Web UI:** http://your-ip:5000
+
+**Stream types available:**
+- **HLS:** `http://your-ip:8888/camera-name/`
+- **Snapshots:** `http://your-ip:5000/snapshot/camera-name.jpg`
+- **WebRTC:** Access via Web UI at `http://your-ip:5000`
+
+Replace `your-ip` with your actual IP address and `camera-name` with your camera name.
+
+## Stream Types Overview
 # HTTP/Browser-Compatible Streaming Guide
 
 This guide explains how to use HTTP-based streaming options that work with browsers and tools that don't support RTSP (like OctoPrint, web dashboards, etc.).
@@ -20,39 +138,48 @@ While RTSP is excellent for local network streaming, many applications and brows
 | **WebRTC** | 8889 | Via Web UI | Low-latency browser viewing | ✅ Yes |
 | **Snapshots** | 5000 | `http://ip:5000/snapshot/camera-name.jpg` | Static images, OctoPrint | ✅ Yes |
 
-## HLS Streaming (HTTP Live Streaming)
+## Testing Your HTTP Streams
 
-HLS is the recommended option for browser-based streaming and tools that need HTTP URLs.
+### Testing HLS Streams
 
-### Accessing HLS Streams
+#### Method 1: In Your Web Browser
 
-**Format:** `http://YOUR-IP:8888/camera-name/`
+**Simplest method:**
+1. Open your web browser (Chrome, Firefox, Safari, Edge)
+2. Enter the URL: `http://your-ip:8888/camera-name/`
+   - Example: `http://your-ip:8888/front_door/`
+3. The stream should play automatically
 
-**Examples:**
-```
-http://192.168.1.100:8888/front_door/
-http://192.168.1.100:8888/garage_camera/
-http://192.168.1.100:8888/back_yard/
-```
+**Note:** Replace `your-ip` with your actual IP address and `camera-name` with your camera name from the Web UI.
 
-### Using HLS Streams
+#### Method 2: VLC Media Player
 
-#### In Web Browsers
-Simply open the URL in your browser. The stream will play using the browser's built-in HLS player.
+**Download VLC if you don't have it:**
+- Get from: https://www.videolan.org/vlc/
 
-#### In HTML Pages
+**Test your HLS stream:**
+1. Open VLC Media Player
+2. Go to **Media** → **Open Network Stream** (or press `Ctrl+N`)
+3. Enter your HLS URL: `http://your-ip:8888/camera-name/stream.m3u8`
+   - Example: `http://your-ip:8888/front_door/stream.m3u8`
+4. Click **Play**
+
+#### Method 3: Using HTML (For Web Developers)
+
+**Basic HTML5 video tag:**
 ```html
 <video controls width="640">
-  <source src="http://192.168.1.100:8888/front_door/stream.m3u8" type="application/x-mpegURL">
+  <source src="http://your-ip:8888/front_door/stream.m3u8" type="application/x-mpegURL">
 </video>
 ```
 
-#### With Video.js (Recommended)
+**Using Video.js (Recommended for better browser compatibility):**
 ```html
 <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
 <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 
 <video id="my-camera" class="video-js" controls preload="auto" width="640" height="480">
+  <source src="http://your-ip:8888/front_door/stream.m3u8" type="application/x-mpegURL">
   <source src="http://192.168.1.100:8888/front_door/stream.m3u8" type="application/x-mpegURL">
 </video>
 
@@ -61,6 +188,183 @@ Simply open the URL in your browser. The stream will play using the browser's bu
 </script>
 ```
 
+### Testing Snapshots
+
+#### In Your Web Browser
+
+1. Open your browser
+2. Enter the snapshot URL: `http://your-ip:5000/snapshot/camera-name.jpg`
+   - Example: `http://your-ip:5000/snapshot/front_door.jpg`
+3. You should see a still image from your camera
+
+The snapshot updates automatically. To force a refresh, add a timestamp:
+```
+http://your-ip:5000/snapshot/camera-name.jpg?t=timestamp
+```
+
+### Testing WebRTC (Lowest Latency)
+
+**Access via Web UI:**
+1. Open the Web UI: `http://your-ip:5000`
+2. Click on any camera
+3. The stream will automatically use WebRTC for the lowest latency
+
+**Requirements:**
+- Port 8889 (TCP) must be open
+- Port 8189 (UDP) must be open
+- `WB_IP` environment variable must be set to your server IP
+
+## Common Use Cases
+
+### OctoPrint Integration
+
+**Method 1: Using Snapshots (Recommended - Simpler)**
+
+1. In OctoPrint, go to **Settings** → **Webcam & Timelapse**
+2. Set these values:
+   - **Stream URL:** `http://your-ip:5000/snapshot/camera-name.jpg`
+   - **Snapshot URL:** `http://your-ip:5000/snapshot/camera-name.jpg`
+3. Click **Test** to verify
+4. Adjust frame rate if needed (1-15 fps recommended for snapshots)
+
+**Method 2: Using HLS Stream (Video)**
+
+1. Install an OctoPrint plugin that supports custom URLs:
+   - Go to **Settings** → **Plugin Manager**
+   - Search for "WebcamTab" or similar plugins
+2. Configure the stream:
+   - **Stream URL:** `http://your-ip:8888/camera-name/`
+3. Enable "Embed stream" if available
+
+### Home Assistant Integration
+
+**Using Snapshots:**
+```yaml
+camera:
+  - platform: generic
+    name: "Front Door Camera"
+    still_image_url: http://your-ip:5000/snapshot/front_door.jpg
+```
+
+**Using RTSP (Recommended for recording):**
+```yaml
+camera:
+  - platform: generic
+    name: "Front Door Camera"
+    stream_source: rtsp://your-ip:8554/front_door
+    still_image_url: http://your-ip:5000/snapshot/front_door.jpg
+```
+
+**What to do:**
+1. Open `configuration.yaml` in a text editor
+2. Add the camera configuration above
+3. Replace `your-ip` with your actual IP address
+4. Replace `front_door` with your actual camera name
+5. Save the file
+6. Restart Home Assistant:
+   - **Web UI:** Developer Tools → YAML → Restart
+   - **Command Line:** `ha core restart` (Home Assistant OS)
+
+**Easier method:** Use the Web UI export feature at `http://your-ip:5000` to auto-generate the camera config!
+
+### Web Dashboard/Iframe Integration
+
+**For custom dashboards (Grafana, etc.):**
+
+```html
+<!-- HLS Stream -->
+<iframe src="http://your-ip:8888/camera-name/" width="640" height="480"></iframe>
+
+<!-- Snapshot -->
+<img src="http://your-ip:5000/snapshot/camera-name.jpg" width="640" height="480" />
+```
+
+## Troubleshooting
+
+### HLS Stream Not Loading
+
+**Check 1: Verify the URL is accessible**
+
+**Where to run:** Command Prompt/Terminal
+
+```bash
+curl http://your-ip:8888/camera-name/
+```
+
+You should see HTML or M3U8 playlist content.
+
+**Check 2: Verify port 8888 is exposed**
+
+Check your `docker-compose.yml` includes:
+```yaml
+ports:
+  - 8888:8888
+```
+
+**Check 3: Check bridge logs**
+
+**Where to run:** Command Prompt/Terminal
+
+```bash
+docker-compose logs wyze-bridge
+```
+
+**Check 4: Test with VLC**
+
+- Open VLC → Media → Open Network Stream
+- Enter: `http://your-ip:8888/camera-name/stream.m3u8`
+- Click Play
+
+### Snapshots Not Updating
+
+**Check 1: Verify snapshot URL**
+
+Open in your browser:
+```
+http://your-ip:5000/snapshot/camera-name.jpg
+```
+
+You should see a camera image.
+
+**Check 2: Verify camera name**
+
+- Camera names use underscores instead of spaces
+- "Front Door" becomes "front_door"
+- Check the Web UI at `http://your-ip:5000` for correct names
+
+**Check 3: Verify port 5000 is exposed**
+
+Check your `docker-compose.yml` includes:
+```yaml
+ports:
+  - 5000:5000
+```
+
+### WebRTC Not Working
+
+**Check 1: Verify WB_IP is set**
+
+Check your `docker-compose.yml` or `.env` file has:
+```yaml
+environment:
+  - WB_IP=your-ip  # Your actual server IP
+```
+
+**Check 2: Verify WebRTC ports are open**
+
+```yaml
+ports:
+  - 8889:8889      # WebRTC
+  - 8189:8189/udp  # WebRTC/ICE
+```
+
+**Check 3: Restart the bridge**
+
+```bash
+docker-compose restart
+```
+
+### CORS Issues (Cross-Origin Errors)
 #### In OctoPrint
 1. Install the "OctoPrint-Dashboard" or "OctoPrint-WebcamTab" plugin
 2. Use the HLS URL format: `http://YOUR-IP:8888/camera-name/`
@@ -248,6 +552,85 @@ If you're embedding streams in another website and get CORS errors:
 2. If issues persist, check your reverse proxy configuration
 3. For development, you may need to disable browser CORS checks
 
+## Browser Compatibility
+
+### HLS Support
+
+| Browser | HLS Support | Notes |
+|---------|-------------|-------|
+| Safari | ✅ Native | Works out of the box |
+| Mobile Safari | ✅ Native | Works out of the box |
+| Chrome | ✅ Via library | Requires video.js or hls.js |
+| Firefox | ✅ Via library | Requires video.js or hls.js |
+| Edge | ✅ Via library | Requires video.js or hls.js |
+| Chrome Android | ✅ Via library | Requires video.js or hls.js |
+
+**For non-Safari browsers**, use a library like Video.js or hls.js for better compatibility (see Testing section above).
+
+## Camera Names and URLs
+
+Your camera streams will be available at:
+- **HLS:** `http://your-ip:8888/camera-name/`
+- **Snapshots:** `http://your-ip:5000/snapshot/camera-name.jpg`
+- Replace spaces in camera names with underscores
+- Example: "Front Door" becomes "front_door"
+
+Check the Web UI at http://your-ip:5000 to see all available camera names and their URLs.
+
+## Port Reference
+
+| Port | Service | Description |
+|------|---------|-------------|
+| **5000** | Web UI | Camera management, snapshots, export features |
+| **8554** | RTSP | Traditional RTSP streams (for VLC, NVRs) |
+| **8888** | HLS | HTTP Live Streaming (browser compatible) |
+| **8889** | WebRTC | Low-latency WebRTC (browser compatible) |
+| **8189** | WebRTC/ICE | WebRTC ICE protocol (UDP, for WebRTC) |
+
+## Security Considerations
+
+When using HTTP streams:
+
+**1. Enable authentication:**
+```yaml
+environment:
+  - WB_AUTH=true
+  - WB_PASSWORD=your-secure-password
+```
+
+**2. Keep streams on local network:**
+- Use local network IPs only (192.168.x.x or 10.0.x.x)
+- Don't expose ports directly to the internet
+- Use a VPN for remote access
+
+**3. Use a reverse proxy for remote access:**
+- Set up nginx or similar with authentication
+- Use HTTPS for encrypted connections
+- Never forward ports directly to the internet without security
+
+## Logs and Debugging
+
+**Where to run:** Command Prompt, PowerShell, or Terminal
+
+**Check live logs:**
+```bash
+docker-compose logs -f wyze-bridge
+```
+
+**What this does:** Shows real-time logs from the bridge
+- Press `Ctrl+C` to stop viewing logs (container keeps running)
+
+**Check recent logs:**
+```bash
+docker-compose logs --tail=100 wyze-bridge
+```
+
+**Save logs to a file:**
+```bash
+docker-compose logs wyze-bridge > bridge-logs.txt
+```
+
+## Quick Reference
 ## Port Reference
 
 | Port | Service | Description |
@@ -322,6 +705,10 @@ The Web UI also provides API endpoints:
 - Or use the Web UI: `http://ip:5000`
 
 **For lowest latency:**
+- Use WebRTC via the Web UI at `http://ip:5000`
+
+**For traditional NVRs and Home Assistant:**
+- Use RTSP: `rtsp://ip:8554/camera-name` (see [RTSP-SETUP.md](RTSP-SETUP.md))
 - Use WebRTC via the Web UI
 
 **For traditional NVRs and Home Assistant:**
