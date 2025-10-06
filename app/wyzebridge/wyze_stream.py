@@ -226,9 +226,9 @@ class WyzeStream:
             logger.warning(f"⏰ Timed out connecting to {self.camera.nickname}.")
             self.stop()
 
-        if should_start and self.camera.is_battery and self.state == 1:
-            return 0
-        return self.state if self.start_time < time() else 0
+        if should_start and self.camera.is_battery and self.state == StreamStatus.STOPPED:
+            return StreamStatus.DISABLED
+        return self.state if self.start_time < time() else StreamStatus.DISABLED
 
     def refresh_camera(self):
         self.stop()
@@ -367,7 +367,7 @@ class WyzeStream:
         if cmd == "time_zone" and payload and isinstance(payload, str):
             return self.tz_control(payload)
 
-        if cmd == "bitrate" and isinstance(payload, (str, int)) and payload.isdigit():
+        if cmd == "bitrate" and isinstance(payload, (str, int)) and (isinstance(payload, int) or payload.isdigit()):
             self.options.bitrate = int(payload)
 
         if cmd == "update_snapshot":
@@ -518,7 +518,7 @@ def get_cam_params(sess: WyzeIOTCSession, uri: str) -> tuple[str, dict]:
 
 def get_camera_info(sess: WyzeIOTCSession) -> tuple[str, str]:
     if not (camera_info := sess.camera.camera_info):
-        logger.warn("⚠️ cameraInfo is missing.")
+        logger.warning("⚠️ cameraInfo is missing.")
         return "NA", "NA"
     logger.debug(f"[cameraInfo] {camera_info}")
 
@@ -536,7 +536,7 @@ def get_camera_info(sess: WyzeIOTCSession) -> tuple[str, str]:
 def get_video_params(sess: WyzeIOTCSession) -> tuple[str, int]:
     cam_info = sess.camera.camera_info
     if not cam_info or not (video_param := cam_info.get("videoParm")):
-        logger.warn("⚠️ camera_info is missing videoParm. Using default values.")
+        logger.warning("⚠️ camera_info is missing videoParm. Using default values.")
         video_param = {"type": "h264", "fps": 20}
 
     fps = int(video_param.get("fps", 0))
@@ -562,6 +562,7 @@ def get_audio_params(sess: WyzeIOTCSession) -> dict[str, str | int]:
     codec, rate = sess.identify_audio_codec()
     logger.info(f"🔊 Audio Enabled [Source={codec.upper()}/{rate:,}Hz]")
 
+    codec_out = ""
     if codec_out := env_bool("AUDIO_CODEC"):
         logger.info(f"[AUDIO] Re-Encode Enabled [AUDIO_CODEC={codec_out}]")
     elif rate > 8000 or codec.lower() == "s16le":

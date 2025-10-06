@@ -21,7 +21,7 @@ def clear_handler(handler: logging.Handler):
     for logger_name in ("WyzeBridge", "", "werkzeug", "py.warnings"):
         target_logger = logging.getLogger(logger_name)
         for existing_handler in target_logger.handlers:
-            if type(existing_handler) == type(handler):
+            if isinstance(existing_handler, type(handler)):
                 target_logger.removeHandler(existing_handler)
 
 
