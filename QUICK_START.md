@@ -394,6 +394,7 @@ docker-compose logs -f wyze-bridge
 
 - **Full Setup Guide:** [SETUP_GUIDE.md](SETUP_GUIDE.md)
 - **RTSP Setup Guide:** [RTSP-SETUP.md](RTSP-SETUP.md)
+- **Command Reference:** [COMMAND_REFERENCE.md](COMMAND_REFERENCE.md) - Where to run commands
 - **GitHub Issues:** https://github.com/allanwrench28/docker-wyze-bridge-wrench-works/issues
 
 ---

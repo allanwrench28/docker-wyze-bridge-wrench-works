@@ -803,6 +803,9 @@ MOTION_WEBHOOKS=http://your-server/motion-webhook
 ## 📚 Additional Resources
 
 - **Project Repository**: https://github.com/allanwrench28/docker-wyze-bridge-wrench-works
+- **Command Reference**: [COMMAND_REFERENCE.md](COMMAND_REFERENCE.md) - Quick reference for running commands
+- **Quick Start Guide**: [QUICK_START.md](QUICK_START.md) - 5-minute setup
+- **RTSP Setup Guide**: [RTSP-SETUP.md](RTSP-SETUP.md) - RTSP-specific configuration
 - **Wyze Developer Portal**: https://developer-api-console.wyze.com/
 - **Issue Tracker**: [GitHub Issues](https://github.com/allanwrench28/docker-wyze-bridge-wrench-works/issues)
 - **VLC Media Player**: https://www.videolan.org/vlc/

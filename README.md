@@ -64,10 +64,12 @@ See the [supported cameras](#supported-cameras) section for additional informati
 - 📖 **[Quick Start Guide](QUICK_START.md)** - Get streaming in 5 minutes! (Includes prerequisite setup)
 - 📚 **[Complete Setup Guide](SETUP_GUIDE.md)** - Comprehensive walkthrough with troubleshooting
 - 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - RTSP-specific configuration
+- 💻 **[Command Reference](COMMAND_REFERENCE.md)** - Quick reference for where to run commands
 
 > **📝 Note:** All commands in this guide should be run in your terminal/command prompt:
 > - **Windows:** Command Prompt or PowerShell (NOT Python terminal)
 > - **Mac/Linux:** Terminal application
+> - **Not sure?** See the [Command Reference Guide](COMMAND_REFERENCE.md)
 
 ### Simple Setup (3 Steps)
 
@@ -378,9 +380,30 @@ General Wyze:
 
 This fork provides additional documentation to help maintain and contribute to the project:
 
+- **[QUICK_START.md](QUICK_START.md)** - 5-minute setup guide
+  - Prerequisites with installation instructions
+  - Three setup methods to choose from
+  - Clear terminal/command prompt guidance
+
+- **[SETUP_GUIDE.md](SETUP_GUIDE.md)** - Complete setup walkthrough
+  - Understanding command line environments
+  - Step-by-step installation
+  - Comprehensive troubleshooting
+
+- **[COMMAND_REFERENCE.md](COMMAND_REFERENCE.md)** - Command reference guide
+  - Where to run different types of commands
+  - Prerequisites checklist
+  - Common tasks step-by-step
+  - Troubleshooting "command not found" errors
+
+- **[RTSP-SETUP.md](RTSP-SETUP.md)** - RTSP-specific setup
+  - Quick RTSP configuration
+  - Testing with VLC and FFmpeg
+  - Home Assistant integration
+
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributing to this fork
   - How to report issues effectively
-  - Development setup and testing procedures
+  - Development setup with prerequisites
   - Code style and PR guidelines
   - Relationship with upstream
 
