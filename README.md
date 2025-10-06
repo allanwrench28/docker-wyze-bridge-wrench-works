@@ -1,7 +1,7 @@
-[![Docker](https://github.com/mrlt8/docker-wyze-bridge/actions/workflows/docker-image.yml/badge.svg)](https://github.com/mrlt8/docker-wyze-bridge/actions/workflows/docker-image.yml)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/mrlt8/docker-wyze-bridge?logo=github)](https://github.com/mrlt8/docker-wyze-bridge/releases/latest)
-[![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/mrlt8/wyze-bridge?sort=semver&logo=docker&logoColor=white)](https://hub.docker.com/r/mrlt8/wyze-bridge)
-[![Docker Pulls](https://img.shields.io/docker/pulls/mrlt8/wyze-bridge?logo=docker&logoColor=white)](https://hub.docker.com/r/mrlt8/wyze-bridge)
+[![Docker](https://github.com/allanwrench28/docker-wyze-bridge-wrench-works/actions/workflows/docker-image.yml/badge.svg)](https://github.com/allanwrench28/docker-wyze-bridge-wrench-works/actions/workflows/docker-image.yml)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/mrlt8/docker-wyze-bridge?logo=github&label=upstream%20release)](https://github.com/mrlt8/docker-wyze-bridge/releases/latest)
+[![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/mrlt8/wyze-bridge?sort=semver&logo=docker&logoColor=white&label=upstream%20image)](https://hub.docker.com/r/mrlt8/wyze-bridge)
+[![Docker Pulls](https://img.shields.io/docker/pulls/mrlt8/wyze-bridge?logo=docker&logoColor=white&label=upstream%20pulls)](https://hub.docker.com/r/mrlt8/wyze-bridge)
 
 # WebRTC/RTSP/RTMP/HLS Bridge for Wyze Cam
 
@@ -28,7 +28,7 @@ It just works!
 
 Streams direct from camera without additional bandwidth or subscriptions.
 
-Please consider ⭐️ starring or [☕️ sponsoring](https://ko-fi.com/mrlt8) this project if you found it useful, or use the [affiliate link](https://amzn.to/3NLnbvt) when shopping on amazon!
+Please consider ⭐️ starring this project if you found it useful, or [☕️ sponsor the original author](https://ko-fi.com/mrlt8) who created this excellent project!
 
 
 > [!IMPORTANT]
@@ -65,6 +65,25 @@ See the [supported cameras](#supported-cameras) section for additional informati
 - 🌐 **[HTTP/Browser Streaming Guide](HTTP-STREAMING.md)** - Setup guide for HLS, WebRTC, and browser-compatible streams
 - 💻 **[Command Reference](COMMAND_REFERENCE.md)** - Quick reference for where to run commands
 - 💻 **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to this project
+- 📖 **[Quick Start Guide](QUICK_START.md)** - Get streaming in 5 minutes! (Includes prerequisite setup)
+- 📚 **[Complete Setup Guide](SETUP_GUIDE.md)** - Comprehensive walkthrough with troubleshooting
+- 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - RTSP-specific configuration
+- 🌐 **[HTTP/Browser Streaming Guide](HTTP-STREAMING.md)** - Browser-compatible streaming & OctoPrint integration
+- 💻 **[Command Reference](COMMAND_REFERENCE.md)** - Quick reference for where to run commands
+
+### 🤔 Which Guide Should I Use?
+
+**Choose based on your situation:**
+
+| If you... | Use this guide |
+|-----------|---------------|
+| 🆕 Are brand new to this project | → [Quick Start Guide](QUICK_START.md) |
+| ❓ Don't know where to run commands | → [Command Reference](COMMAND_REFERENCE.md) |
+| 🔧 Need detailed step-by-step help | → [Complete Setup Guide](SETUP_GUIDE.md) |
+| 📺 Just want RTSP streaming quickly | → [RTSP Setup Guide](RTSP-SETUP.md) |
+| 🌐 Need browser/HTTP streaming or OctoPrint | → [HTTP Streaming Guide](HTTP-STREAMING.md) |
+| 💻 Want to contribute code | → [Contributing Guide](CONTRIBUTING.md) |
+| ❌ Getting "command not found" errors | → [Command Reference](COMMAND_REFERENCE.md) |
 
 > **📝 Note:** All commands in this guide should be run in your terminal/command prompt:
 > - **Windows:** Command Prompt or PowerShell (NOT Python terminal)
@@ -170,6 +189,8 @@ Use `RECORD_ALL` or `RECORD_CAM_NAME` to enable recording.
   * It uses the same SDK as the app to communicate directly with the cameras. See [kroo/wyzecam](https://github.com/kroo/wyzecam) for details.
 * Does it use internet bandwidth when streaming?
   * Not in most cases. The bridge will attempt to stream locally if possible but will fallback to streaming over the internet if you're trying to stream from a different location or from a shared camera. See the [wiki](https://github.com/mrlt8/docker-wyze-bridge/wiki/Network-Connection-Modes) for more details.
+* Can I use this with OctoPrint or in a web browser?
+  * Yes! RTSP doesn't work in browsers, but the bridge provides HLS (HTTP) streams on port 8888 and HTTP snapshots on port 5000 that work with browsers and OctoPrint. See the [HTTP Streaming Guide](HTTP-STREAMING.md) for details.
 * Can this work offline/can I block all wyze services?
   * No. Streaming should continue to work without an active internet connection, but will probably stop working after some time as the cameras were not designed to be used without the cloud. Some camera commands also depend on the cloud and may not function without an active connection. See [wz_mini_hacks](https://github.com/gtxaspec/wz_mini_hacks/wiki/Configuration-File#self-hosted--isolated-mode) for firmware level modification to run the camera offline.
 * Why aren't all wyze cams supported yet (OG/Doorbell Pro)?
@@ -399,6 +420,17 @@ This fork provides additional documentation to help maintain and contribute to t
   - Prerequisites checklist
   - Common tasks step-by-step
   - Troubleshooting "command not found" errors
+
+- **[RTSP-SETUP.md](RTSP-SETUP.md)** - RTSP-specific setup
+  - Quick RTSP configuration
+  - Testing with VLC and FFmpeg
+  - Home Assistant integration
+
+- **[HTTP-STREAMING.md](HTTP-STREAMING.md)** - HTTP/Browser streaming guide
+  - HLS streaming for web browsers
+  - HTTP snapshots for OctoPrint
+  - WebRTC low-latency streaming
+  - Browser compatibility guide
 
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributing to this fork
   - How to report issues effectively
