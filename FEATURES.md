@@ -249,13 +249,23 @@ curl -X POST http://YOUR-IP:5000/api/setup/validate \
 ### 7. 📚 Comprehensive Documentation
 
 #### RTSP-SETUP.md
-Complete setup guide with:
+Complete RTSP streaming setup guide with:
 - Prerequisites and installation instructions
 - Step-by-step RTSP configuration
 - Testing with VLC and FFmpeg
 - Home Assistant integration
 - Troubleshooting section
 - Camera names and URL examples
+
+#### HTTP-STREAMING.md
+Complete HTTP/browser streaming setup guide with:
+- Prerequisites and port configuration
+- HLS streaming for web browsers
+- WebRTC for low-latency viewing
+- HTTP snapshots for OctoPrint
+- Testing methods and integration examples
+- Browser compatibility reference
+- Troubleshooting common issues
 
 #### In-App Help Page
 Interactive web documentation at `/help` with:
@@ -442,7 +452,8 @@ Potential future features:
 
 ## 📞 Support
 
-- **Setup Guide:** [RTSP-SETUP.md](RTSP-SETUP.md)
+- **RTSP Setup Guide:** [RTSP-SETUP.md](RTSP-SETUP.md)
+- **HTTP/Browser Streaming Guide:** [HTTP-STREAMING.md](HTTP-STREAMING.md)
 - **Help Page:** `http://YOUR-IP:5000/help`
 - **Issues:** GitHub Issues
 

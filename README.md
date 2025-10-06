@@ -62,6 +62,7 @@ See the [supported cameras](#supported-cameras) section for additional informati
 **New to Wyze Bridge?** Check out our guides:
 
 - 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - Complete setup guide for RTSP streaming
+- 🌐 **[HTTP/Browser Streaming Guide](HTTP-STREAMING.md)** - Setup guide for HLS, WebRTC, and browser-compatible streams
 - 💻 **[Command Reference](COMMAND_REFERENCE.md)** - Quick reference for where to run commands
 - 💻 **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to this project
 
@@ -379,12 +380,19 @@ General Wyze:
 
 This fork provides additional documentation to help maintain and contribute to the project:
 
-- **[RTSP-SETUP.md](RTSP-SETUP.md)** - Complete setup guide
+- **[RTSP-SETUP.md](RTSP-SETUP.md)** - RTSP streaming setup guide
   - Prerequisites with installation instructions
   - Step-by-step RTSP configuration
   - Testing with VLC and FFmpeg
   - Home Assistant integration
   - Troubleshooting
+
+- **[HTTP-STREAMING.md](HTTP-STREAMING.md)** - HTTP/Browser streaming setup guide
+  - HLS streaming for web browsers
+  - WebRTC for low-latency viewing
+  - HTTP snapshots for OctoPrint
+  - Testing and integration examples
+  - Browser compatibility guide
 
 - **[COMMAND_REFERENCE.md](COMMAND_REFERENCE.md)** - Command reference guide
   - Where to run different types of commands
