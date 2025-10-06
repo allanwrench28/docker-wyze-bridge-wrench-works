@@ -51,37 +51,99 @@ Please open an issue to discuss major changes before implementing them.
 
 #### Development Setup
 
+**Prerequisites:**
+- **Git** - [Download](https://git-scm.com/downloads)
+- **Docker and Docker Compose** - [Download](https://docs.docker.com/get-docker/)
+- **Python 3.7+** - [Download](https://www.python.org/downloads/)
+- **pip** (Python package manager, usually included with Python)
+
+**Check if you have the prerequisites:**
 ```bash
-# Clone your fork
+git --version
+docker --version
+docker-compose --version
+python3 --version  # or 'python --version' on Windows
+pip3 --version     # or 'pip --version' on Windows
+```
+
+**Where to run these commands:**
+- **Windows:** Command Prompt, PowerShell, or Git Bash - NOT Python IDLE
+- **Mac:** Terminal app
+- **Linux:** Any terminal emulator
+
+**Setup steps:**
+
+```bash
+# Step 1: Clone your fork
 git clone https://github.com/yourusername/docker-wyze-bridge-wrench-works.git
 cd docker-wyze-bridge-wrench-works
 
-# Add upstream remote
+# Step 2: Add upstream remote
 git remote add upstream https://github.com/mrlt8/docker-wyze-bridge.git
 
-# Create a feature branch
+# Step 3: Create a feature branch
 git checkout -b feature/your-feature-name
 
-# Install dependencies
+# Step 4: Install Python dependencies
 cd app
+
+# On Linux/Mac:
+pip3 install -r requirements.txt
+
+# On Windows:
 pip install -r requirements.txt
+
+# Step 5: Return to root directory
+cd ..
 ```
+
+**What each tool does:**
+- **Git** - Version control, for downloading and managing code
+- **Docker** - Container platform, for running the bridge application
+- **Python** - Programming language, for running/developing the Python code
+- **pip** - Python package installer, for installing dependencies
 
 #### Testing Your Changes
 
+**Where to run these commands:**
+- **Windows:** Command Prompt, PowerShell, or Git Bash
+- **Mac:** Terminal app
+- **Linux:** Terminal emulator
+
+**Testing steps:**
+
 1. **Build the Docker image** locally:
    ```bash
+   # Run from the repository root directory
    docker build -t wyze-bridge:test -f docker/Dockerfile .
    ```
+   
+   **What this does:** Builds a Docker container image with your changes
 
 2. **Run with your cameras**:
    ```bash
-   docker run --rm -p 5000:5000 -e WYZE_EMAIL=your@email.com -e WYZE_PASSWORD=yourpass wyze-bridge:test
+   # Replace with your actual Wyze credentials
+   docker run --rm -p 5000:5000 \
+     -e WYZE_EMAIL=your@email.com \
+     -e WYZE_PASSWORD=yourpass \
+     -e API_ID=your-api-id \
+     -e API_KEY=your-api-key \
+     wyze-bridge:test
    ```
+   
+   **What this does:** Starts the bridge container with your changes
+   
+   **Access the Web UI:** Open `http://localhost:5000` in your web browser
 
-3. **Verify streams** work for affected cameras
+3. **Verify streams** work for affected cameras:
+   - Check the Web UI to see if cameras are discovered
+   - Test RTSP stream in VLC: `rtsp://localhost:8554/camera-name`
 
-4. **Check logs** for any errors or warnings
+4. **Check logs** for any errors or warnings:
+   ```bash
+   # Logs are shown in the terminal where you ran 'docker run'
+   # Press Ctrl+C to stop the container
+   ```
 
 ### Code Style
 
@@ -109,18 +171,43 @@ This fork maintains close alignment with the upstream repository:
 
 ### Syncing with Upstream
 
-Contributors can help keep the fork updated:
+Contributors can help keep the fork updated.
+
+**Where to run these commands:**
+- **Windows:** Command Prompt, PowerShell, or Git Bash
+- **Mac:** Terminal app
+- **Linux:** Terminal emulator
+
+**Sync steps:**
 
 ```bash
-# Fetch upstream changes
+# Step 1: Fetch upstream changes
 git fetch upstream
 
-# Merge upstream main into your branch
+# Step 2: Merge upstream main into your branch
 git merge upstream/main
 
-# Resolve any conflicts
-# Test thoroughly
-# Submit PR
+# Step 3: If there are conflicts, Git will tell you which files
+# Open the conflicted files in a text editor and resolve conflicts
+# Look for lines with <<<<<<, ======, and >>>>>>
+# After resolving, mark as resolved:
+git add <resolved-file>
+
+# Step 4: Complete the merge
+git commit
+
+# Step 5: Test thoroughly (see Testing Your Changes section)
+
+# Step 6: Push to your fork
+git push origin your-branch-name
+
+# Step 7: Submit PR on GitHub
+```
+
+**Alternative:** Use the `check-upstream.sh` script in the `scripts/` directory:
+```bash
+# On Linux/Mac or Git Bash (Windows):
+./scripts/check-upstream.sh
 ```
 
 ## Community
