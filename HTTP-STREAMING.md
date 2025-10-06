@@ -5,7 +5,28 @@
 Before starting, make sure you have:
 - **Docker and Docker Compose** installed - [Get Docker](https://docs.docker.com/get-docker/)
 - **A text editor** (Notepad, VS Code, nano, etc.)
-- **Wyze Bridge already running** - See [RTSP-SETUP.md](RTSP-SETUP.md) for initial setup
+- **Wyze Bridge already running**  
+  If you haven't set up Wyze Bridge yet, follow these basic steps:
+  1. **Pull the Wyze Bridge Docker image:**
+     ```bash
+     docker pull mrlt8/wyze-bridge
+     ```
+  2. **Create a `docker-compose.yml` file** with at least the following content:
+     ```yaml
+     version: "3"
+     services:
+       wyze-bridge:
+         image: mrlt8/wyze-bridge
+         restart: unless-stopped
+         ports:
+           - 5000:5000
+           - 8554:8554
+           - 8888:8888
+     ```
+  3. **Start the bridge:**
+     ```bash
+     docker-compose up -d
+     ```
 
 **Check if Docker is installed:**
 ```bash
