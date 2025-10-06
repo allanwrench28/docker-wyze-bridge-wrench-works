@@ -509,64 +509,6 @@ Access at: `http://YOUR-IP:5000`
 </script>
 ```
 
-## Troubleshooting
-
-### HLS Stream Not Loading
-
-1. **Check the URL is accessible:**
-   ```bash
-   curl http://YOUR-IP:8888/camera-name/
-   ```
-   
-2. **Verify port 8888 is exposed:**
-   - Check docker-compose.yml includes: `- 8888:8888`
-
-3. **Check bridge logs:**
-   ```bash
-   docker logs wyze-bridge
-   ```
-
-4. **Test with VLC:**
-   - Open VLC → Media → Open Network Stream
-   - Enter: `http://YOUR-IP:8888/camera-name/stream.m3u8`
-
-### Snapshots Not Updating
-
-1. **Verify snapshot URL:**
-   - Open in browser: `http://YOUR-IP:5000/snapshot/camera-name.jpg`
-   - Should see a camera image
-
-2. **Check camera name:**
-   - Camera names use underscores instead of spaces
-   - "Front Door" becomes "front_door"
-   - Check Web UI at `http://YOUR-IP:5000` for correct names
-
-3. **Check port 5000 is exposed:**
-   - docker-compose.yml should have: `- 5000:5000`
-
-### CORS Issues
-
-If you're embedding streams in another website and get CORS errors:
-
-1. The bridge allows CORS by default for HLS streams
-2. If issues persist, check your reverse proxy configuration
-3. For development, you may need to disable browser CORS checks
-
-## Browser Compatibility
-
-### HLS Support
-
-| Browser | HLS Support | Notes |
-|---------|-------------|-------|
-| Safari | ✅ Native | Works out of the box |
-| Mobile Safari | ✅ Native | Works out of the box |
-| Chrome | ✅ Via library | Requires video.js or hls.js |
-| Firefox | ✅ Via library | Requires video.js or hls.js |
-| Edge | ✅ Via library | Requires video.js or hls.js |
-| Chrome Android | ✅ Via library | Requires video.js or hls.js |
-
-**For non-Safari browsers**, use a library like Video.js or hls.js for better compatibility (see Testing section above).
-
 ## Camera Names and URLs
 
 Your camera streams will be available at:
@@ -630,37 +572,6 @@ docker-compose logs --tail=100 wyze-bridge
 docker-compose logs wyze-bridge > bridge-logs.txt
 ```
 
-## Quick Reference
-## Port Reference
-
-| Port | Service | Description |
-|------|---------|-------------|
-| 5000 | Web UI | Camera management, snapshots |
-| 8554 | RTSP | Traditional RTSP streams (not browser compatible) |
-| 8888 | HLS | HTTP Live Streaming (browser compatible) |
-| 8889 | WebRTC | Low-latency WebRTC (browser compatible) |
-| 8189 | WebRTC/ICE | WebRTC ICE protocol (UDP) |
-
-## Security Considerations
-
-When exposing HTTP streams:
-
-1. **Use authentication:**
-   ```yaml
-   environment:
-     - WB_AUTH=true
-     - WB_PASSWORD=your-password
-   ```
-
-2. **Don't expose to the internet** without proper security:
-   - Use a VPN for remote access
-   - Or use a reverse proxy with authentication
-   - Never forward ports directly to the internet
-
-3. **Use local network only:**
-   - Keep streams on your local network (192.168.x.x or 10.0.x.x)
-   - Access remotely via VPN
-
 ## Advanced: Custom Integration
 
 ### Embedding in Dashboards
@@ -709,14 +620,7 @@ The Web UI also provides API endpoints:
 
 **For traditional NVRs and Home Assistant:**
 - Use RTSP: `rtsp://ip:8554/camera-name` (see [RTSP-SETUP.md](RTSP-SETUP.md))
-- Use WebRTC via the Web UI
-
-**For traditional NVRs and Home Assistant:**
-- Use RTSP: `rtsp://ip:8554/camera-name`
 
 ---
 
-For more information:
-- [Quick Start Guide](QUICK_START.md)
-- [RTSP Setup Guide](RTSP-SETUP.md)
-- [Complete Setup Guide](SETUP_GUIDE.md)
+For more information, see [RTSP Setup Guide](RTSP-SETUP.md).
