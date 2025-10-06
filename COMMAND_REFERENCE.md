@@ -2,6 +2,22 @@
 
 Quick reference for running commands and scripts in this project.
 
+> **💡 Quick Tip:** If you see a command in documentation and don't know where to run it, this guide will help you!
+
+## 🎯 Most Common Questions
+
+**Q: Where do I run `docker-compose up`?**
+A: In your Command Prompt (Windows) or Terminal (Mac/Linux) - NOT in Python!
+
+**Q: Where do I run `python3 app/wyzebridge/setup_wizard.py`?**
+A: In your Command Prompt (Windows) or Terminal (Mac/Linux) - NOT in Python IDLE!
+
+**Q: Where do I edit the `.env` file?**
+A: In any text editor like Notepad, VS Code, nano, or vim - NOT in Command Prompt!
+
+**Q: How do I run `.sh` scripts on Windows?**
+A: Use Git Bash (comes with Git for Windows) - regular Command Prompt won't work!
+
 ## 🖥️ Where Do I Run Commands?
 
 ### Quick Answer

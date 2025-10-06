@@ -66,6 +66,19 @@ See the [supported cameras](#supported-cameras) section for additional informati
 - 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - RTSP-specific configuration
 - 💻 **[Command Reference](COMMAND_REFERENCE.md)** - Quick reference for where to run commands
 
+### 🤔 Which Guide Should I Use?
+
+**Choose based on your situation:**
+
+| If you... | Use this guide |
+|-----------|---------------|
+| 🆕 Are brand new to this project | → [Quick Start Guide](QUICK_START.md) |
+| ❓ Don't know where to run commands | → [Command Reference](COMMAND_REFERENCE.md) |
+| 🔧 Need detailed step-by-step help | → [Complete Setup Guide](SETUP_GUIDE.md) |
+| 📺 Just want RTSP streaming quickly | → [RTSP Setup Guide](RTSP-SETUP.md) |
+| 💻 Want to contribute code | → [Contributing Guide](CONTRIBUTING.md) |
+| ❌ Getting "command not found" errors | → [Command Reference](COMMAND_REFERENCE.md) |
+
 > **📝 Note:** All commands in this guide should be run in your terminal/command prompt:
 > - **Windows:** Command Prompt or PowerShell (NOT Python terminal)
 > - **Mac/Linux:** Terminal application
