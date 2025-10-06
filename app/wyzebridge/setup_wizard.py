@@ -30,11 +30,11 @@ class SetupWizard:
         print("   🎬 Wyze Bridge - Interactive Setup Wizard")
         print("="*70)
         print("\nWelcome! This wizard will guide you through setting up your Wyze Bridge.")
-        print("You'll need 4 pieces of information:\n")
-        print("  1. Wyze account email")
-        print("  2. Wyze account password")
-        print("  3. Wyze API ID")
-        print("  4. Wyze API Key")
+        print("\nYou'll need 4 pieces of information from Wyze:\n")
+        print("  1. Wyze account email (from wyze.com)")
+        print("  2. Wyze account password (from wyze.com)")
+        print("  3. Wyze API ID (from Wyze Developer Portal)")
+        print("  4. Wyze API Key (from Wyze Developer Portal)")
         print("\n" + "="*70 + "\n")
 
     def print_api_instructions(self):
@@ -111,6 +111,7 @@ class SetupWizard:
         """Collect all credentials from user."""
         print("\n📧 Step 1: Wyze Account Email")
         print("-"*70)
+        print("📍 Source: Your Wyze account (wyze.com)")
         self.credentials["email"] = self.get_input(
             "Enter your Wyze account email: ",
             validator=self.validate_email
@@ -119,6 +120,7 @@ class SetupWizard:
 
         print("🔐 Step 2: Wyze Account Password")
         print("-"*70)
+        print("📍 Source: Your Wyze account (wyze.com)")
         self.credentials["password"] = self.get_input(
             "Enter your Wyze account password: ",
             secret=True
@@ -130,20 +132,22 @@ class SetupWizard:
         
         input("Press Enter when you're ready to continue with API credentials...")
 
-        print("\n🔑 Step 3: API ID")
+        print("\n🔑 Step 3: Wyze API ID")
         print("-"*70)
-        print("This is the 36-character UUID from the Wyze Developer Portal")
+        print("📍 Source: Wyze Developer Portal (developer-api-console.wyze.com)")
+        print("ℹ️  Format: 36-character UUID (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)")
         self.credentials["api_id"] = self.get_input(
-            "Enter your API ID: ",
+            "Enter your Wyze API ID: ",
             validator=self.validate_api_id
         )
         print("✅ API ID accepted\n")
 
-        print("🗝️  Step 4: API Key")
+        print("🗝️  Step 4: Wyze API Key")
         print("-"*70)
-        print("This is the 60-character alphanumeric key from the Wyze Developer Portal")
+        print("📍 Source: Wyze Developer Portal (developer-api-console.wyze.com)")
+        print("ℹ️  Format: 60-character alphanumeric key")
         self.credentials["api_key"] = self.get_input(
-            "Enter your API Key: ",
+            "Enter your Wyze API Key: ",
             validator=self.validate_api_key
         )
         print("✅ API Key accepted\n")
