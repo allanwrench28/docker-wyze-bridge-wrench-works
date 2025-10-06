@@ -70,12 +70,12 @@ Welcome to the complete setup guide for Wyze Bridge! This guide will walk you th
 
 ### Quick Reference
 
-| Task | Windows | Mac | Linux |
+|Task|Windows|Mac|Linux|
 |------|---------|-----|-------|
-| Run Docker | Command Prompt / PowerShell | Terminal | Terminal |
-| Run Python script | Command Prompt / PowerShell | Terminal | Terminal |
-| Run bash script | Git Bash | Terminal | Terminal |
-| Edit .env | Notepad / VS Code | TextEdit / VS Code | nano / vim / gedit |
+|Run Docker|Command Prompt / PowerShell|Terminal|Terminal|
+|Run Python script|Command Prompt / PowerShell|Terminal|Terminal|
+|Run bash script|Git Bash|Terminal|Terminal|
+|Edit .env|Notepad / VS Code|TextEdit / VS Code|nano / vim / gedit|
 
 ---
 
