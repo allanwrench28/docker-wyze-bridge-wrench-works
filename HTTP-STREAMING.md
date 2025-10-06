@@ -68,7 +68,7 @@ ports:
 
 ```yaml
 environment:
-  - WB_IP=192.168.1.100  # Replace with your actual IP
+  - WB_IP=your-ip  # Replace with your actual IP
 ```
 
 ### 3. Restart the Bridge
@@ -133,7 +133,7 @@ Replace `your-ip` with your actual IP address and `camera-name` with your camera
 **Simplest method:**
 1. Open your web browser (Chrome, Firefox, Safari, Edge)
 2. Enter the URL: `http://your-ip:8888/camera-name/`
-   - Example: `http://192.168.1.100:8888/front_door/`
+   - Example: `http://your-ip:8888/front_door/`
 3. The stream should play automatically
 
 **Note:** Replace `your-ip` with your actual IP address and `camera-name` with your camera name from the Web UI.
@@ -147,7 +147,7 @@ Replace `your-ip` with your actual IP address and `camera-name` with your camera
 1. Open VLC Media Player
 2. Go to **Media** → **Open Network Stream** (or press `Ctrl+N`)
 3. Enter your HLS URL: `http://your-ip:8888/camera-name/stream.m3u8`
-   - Example: `http://192.168.1.100:8888/front_door/stream.m3u8`
+   - Example: `http://your-ip:8888/front_door/stream.m3u8`
 4. Click **Play**
 
 #### Method 3: Using HTML (For Web Developers)
@@ -155,7 +155,7 @@ Replace `your-ip` with your actual IP address and `camera-name` with your camera
 **Basic HTML5 video tag:**
 ```html
 <video controls width="640">
-  <source src="http://192.168.1.100:8888/front_door/stream.m3u8" type="application/x-mpegURL">
+  <source src="http://your-ip:8888/front_door/stream.m3u8" type="application/x-mpegURL">
 </video>
 ```
 
@@ -165,7 +165,7 @@ Replace `your-ip` with your actual IP address and `camera-name` with your camera
 <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 
 <video id="my-camera" class="video-js" controls preload="auto" width="640" height="480">
-  <source src="http://192.168.1.100:8888/front_door/stream.m3u8" type="application/x-mpegURL">
+  <source src="http://your-ip:8888/front_door/stream.m3u8" type="application/x-mpegURL">
 </video>
 
 <script>
@@ -179,12 +179,12 @@ Replace `your-ip` with your actual IP address and `camera-name` with your camera
 
 1. Open your browser
 2. Enter the snapshot URL: `http://your-ip:5000/snapshot/camera-name.jpg`
-   - Example: `http://192.168.1.100:5000/snapshot/front_door.jpg`
+   - Example: `http://your-ip:5000/snapshot/front_door.jpg`
 3. You should see a still image from your camera
 
 The snapshot updates automatically. To force a refresh, add a timestamp:
 ```
-http://192.168.1.100:5000/snapshot/camera-name.jpg?t=timestamp
+http://your-ip:5000/snapshot/camera-name.jpg?t=timestamp
 ```
 
 ### Testing WebRTC (Lowest Latency)
@@ -207,8 +207,8 @@ http://192.168.1.100:5000/snapshot/camera-name.jpg?t=timestamp
 
 1. In OctoPrint, go to **Settings** → **Webcam & Timelapse**
 2. Set these values:
-   - **Stream URL:** `http://YOUR-IP:5000/snapshot/camera-name.jpg`
-   - **Snapshot URL:** `http://YOUR-IP:5000/snapshot/camera-name.jpg`
+   - **Stream URL:** `http://your-ip:5000/snapshot/camera-name.jpg`
+   - **Snapshot URL:** `http://your-ip:5000/snapshot/camera-name.jpg`
 3. Click **Test** to verify
 4. Adjust frame rate if needed (1-15 fps recommended for snapshots)
 
@@ -218,7 +218,7 @@ http://192.168.1.100:5000/snapshot/camera-name.jpg?t=timestamp
    - Go to **Settings** → **Plugin Manager**
    - Search for "WebcamTab" or similar plugins
 2. Configure the stream:
-   - **Stream URL:** `http://YOUR-IP:8888/camera-name/`
+   - **Stream URL:** `http://your-ip:8888/camera-name/`
 3. Enable "Embed stream" if available
 
 ### Home Assistant Integration
@@ -228,7 +228,7 @@ http://192.168.1.100:5000/snapshot/camera-name.jpg?t=timestamp
 camera:
   - platform: generic
     name: "Front Door Camera"
-    still_image_url: http://192.168.1.100:5000/snapshot/front_door.jpg
+    still_image_url: http://your-ip:5000/snapshot/front_door.jpg
 ```
 
 **Using RTSP (Recommended for recording):**
@@ -236,14 +236,14 @@ camera:
 camera:
   - platform: generic
     name: "Front Door Camera"
-    stream_source: rtsp://192.168.1.100:8554/front_door
-    still_image_url: http://192.168.1.100:5000/snapshot/front_door.jpg
+    stream_source: rtsp://your-ip:8554/front_door
+    still_image_url: http://your-ip:5000/snapshot/front_door.jpg
 ```
 
 **What to do:**
 1. Open `configuration.yaml` in a text editor
 2. Add the camera configuration above
-3. Replace `192.168.1.100` with your actual IP address
+3. Replace `your-ip` with your actual IP address
 4. Replace `front_door` with your actual camera name
 5. Save the file
 6. Restart Home Assistant:
@@ -258,10 +258,10 @@ camera:
 
 ```html
 <!-- HLS Stream -->
-<iframe src="http://YOUR-IP:8888/camera-name/" width="640" height="480"></iframe>
+<iframe src="http://your-ip:8888/camera-name/" width="640" height="480"></iframe>
 
 <!-- Snapshot -->
-<img src="http://YOUR-IP:5000/snapshot/camera-name.jpg" width="640" height="480" />
+<img src="http://your-ip:5000/snapshot/camera-name.jpg" width="640" height="480" />
 ```
 
 ## Troubleshooting
@@ -273,7 +273,7 @@ camera:
 **Where to run:** Command Prompt/Terminal
 
 ```bash
-curl http://YOUR-IP:8888/camera-name/
+curl http://your-ip:8888/camera-name/
 ```
 
 You should see HTML or M3U8 playlist content.
@@ -297,7 +297,7 @@ docker-compose logs wyze-bridge
 **Check 4: Test with VLC**
 
 - Open VLC → Media → Open Network Stream
-- Enter: `http://YOUR-IP:8888/camera-name/stream.m3u8`
+- Enter: `http://your-ip:8888/camera-name/stream.m3u8`
 - Click Play
 
 ### Snapshots Not Updating
@@ -306,7 +306,7 @@ docker-compose logs wyze-bridge
 
 Open in your browser:
 ```
-http://YOUR-IP:5000/snapshot/camera-name.jpg
+http://your-ip:5000/snapshot/camera-name.jpg
 ```
 
 You should see a camera image.
@@ -315,7 +315,7 @@ You should see a camera image.
 
 - Camera names use underscores instead of spaces
 - "Front Door" becomes "front_door"
-- Check the Web UI at `http://YOUR-IP:5000` for correct names
+- Check the Web UI at `http://your-ip:5000` for correct names
 
 **Check 3: Verify port 5000 is exposed**
 
@@ -332,7 +332,7 @@ ports:
 Check your `docker-compose.yml` or `.env` file has:
 ```yaml
 environment:
-  - WB_IP=192.168.1.100  # Your actual server IP
+  - WB_IP=your-ip  # Your actual server IP
 ```
 
 **Check 2: Verify WebRTC ports are open**
