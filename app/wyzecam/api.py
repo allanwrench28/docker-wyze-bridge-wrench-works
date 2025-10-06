@@ -318,9 +318,6 @@ def _headers(
 
     phone_id is required for other login-related endpoints.
     """
-    import socket
-    hostname = socket.gethostname()
-    
     if not phone_id:
         return {
             "user-agent": SCALE_USER_AGENT,
@@ -332,7 +329,7 @@ def _headers(
         return {
             "apikey": api_key,
             "keyid": key_id,
-            "user-agent": f"docker-wyze-bridge/{getenv('VERSION')}@{hostname}",
+            "user-agent": f"docker-wyze-bridge/{getenv('VERSION')}",
         }
 
     return {
