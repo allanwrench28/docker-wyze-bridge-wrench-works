@@ -44,15 +44,16 @@ Before starting, make sure you have these installed:
 | Tool | Check Command | Install Link | Required For |
 |------|--------------|--------------|--------------|
 | **Docker** | `docker --version` | [Get Docker](https://docs.docker.com/get-docker/) | Running the bridge (REQUIRED) |
-| **Docker Compose** | `docker-compose --version` | Included with Docker Desktop | Running the bridge (REQUIRED) |
+| **Docker Compose** | `docker compose version` | Included with Docker Desktop (V2, Windows/Mac) <br> [Install separately on Linux](https://docs.docker.com/compose/install/) | Running the bridge (REQUIRED) |
 | **Python 3** | `python3 --version` or `python --version` | [Get Python](https://www.python.org/downloads/) | Setup wizard only (OPTIONAL) |
 | **Git** | `git --version` | [Get Git](https://git-scm.com/downloads) | Cloning repo (OPTIONAL) |
 
 ### Installation Tips
 
 **Docker:**
-- Windows/Mac: Install Docker Desktop (includes Docker Compose)
-- Linux: Install Docker Engine, then install Docker Compose separately
+- Windows/Mac: Install Docker Desktop (includes Docker Compose V2, use `docker compose ...`)
+- Linux: Install Docker Engine, then [install Docker Compose V2 separately](https://docs.docker.com/compose/install/)
+- Note: `docker compose` (with a space) is the current standard. The legacy `docker-compose` (with a hyphen) may still exist on some systems as V1.
 
 **Python:**
 - ⚠️ On Windows: Check "Add Python to PATH" during installation!
