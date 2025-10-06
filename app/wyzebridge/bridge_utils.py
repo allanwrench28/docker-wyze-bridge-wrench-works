@@ -53,11 +53,15 @@ def env_filter(cam: WyzeCamera) -> bool:
     """Check if cam is being filtered in any env."""
     if not cam.nickname:
         return False
+    # Cache env lists to avoid repeated parsing
+    filter_names = env_list("FILTER_NAMES")
+    filter_macs = env_list("FILTER_MACS")
+    filter_models = env_list("FILTER_MODELS")
     return (
-        cam.nickname.upper().strip() in env_list("FILTER_NAMES")
-        or cam.mac in env_list("FILTER_MACS")
-        or cam.product_model in env_list("FILTER_MODELS")
-        or cam.model_name.upper() in env_list("FILTER_MODELS")
+        cam.nickname.upper().strip() in filter_names
+        or cam.mac in filter_macs
+        or cam.product_model in filter_models
+        or cam.model_name.upper() in filter_models
     )
 
 
