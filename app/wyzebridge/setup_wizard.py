@@ -5,6 +5,7 @@ This module provides an interactive CLI and web-based setup wizard to guide user
 through the configuration process with direct links to Wyze API credential generation.
 """
 
+import socket
 import sys
 from typing import Optional, Dict, Tuple
 from wyzebridge.logging import logger
@@ -14,6 +15,7 @@ class SetupWizard:
     """Interactive setup wizard for Wyze Bridge configuration."""
 
     WYZE_API_URL = "https://developer-api-console.wyze.com/#/apikey/view"
+    APP_NAME = "docker-wyze-bridge"
     
     def __init__(self):
         """Initialize the setup wizard."""
@@ -23,11 +25,13 @@ class SetupWizard:
             "api_id": "",
             "api_key": ""
         }
+        self.hostname = socket.gethostname()
 
     def print_banner(self):
         """Print welcome banner."""
         print("\n" + "="*70)
-        print("   🎬 Wyze Bridge - Interactive Setup Wizard")
+        print(f"   🎬 {self.APP_NAME} - Interactive Setup Wizard")
+        print(f"   📍 Running on: {self.hostname}")
         print("="*70)
         print("\nWelcome! This wizard will guide you through setting up your Wyze Bridge.")
         print("You'll need 4 pieces of information:\n")
@@ -64,12 +68,15 @@ class SetupWizard:
         Returns:
             Validated user input
         """
+        # Add application and device context to prompt
+        context_prompt = f"[{self.APP_NAME}@{self.hostname}] {prompt}"
+        
         while True:
             if secret:
                 import getpass
-                value = getpass.getpass(prompt)
+                value = getpass.getpass(context_prompt)
             else:
-                value = input(prompt).strip()
+                value = input(context_prompt).strip()
             
             if not value:
                 print("❌ This field cannot be empty. Please try again.")
@@ -128,7 +135,7 @@ class SetupWizard:
         # Show API instructions before asking for API credentials
         self.print_api_instructions()
         
-        input("Press Enter when you're ready to continue with API credentials...")
+        input(f"[{self.APP_NAME}@{self.hostname}] Press Enter when you're ready to continue with API credentials...")
 
         print("\n🔑 Step 3: API ID")
         print("-"*70)
@@ -161,7 +168,7 @@ class SetupWizard:
 
     def confirm_credentials(self) -> bool:
         """Ask user to confirm credentials."""
-        response = input("Are these credentials correct? (yes/no): ").lower().strip()
+        response = input(f"[{self.APP_NAME}@{self.hostname}] Are these credentials correct? (yes/no): ").lower().strip()
         return response in ["yes", "y"]
 
     def save_to_env(self, env_file: str = ".env") -> bool:
