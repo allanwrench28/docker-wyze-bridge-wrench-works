@@ -226,9 +226,9 @@ class WyzeStream:
             logger.warning(f"⏰ Timed out connecting to {self.camera.nickname}.")
             self.stop()
 
-        if should_start and self.camera.is_battery and self.state == 1:
-            return 0
-        return self.state if self.start_time < time() else 0
+        if should_start and self.camera.is_battery and self.state == StreamStatus.STOPPED:
+            return StreamStatus.DISABLED
+        return self.state if self.start_time < time() else StreamStatus.DISABLED
 
     def refresh_camera(self):
         self.stop()
@@ -562,6 +562,7 @@ def get_audio_params(sess: WyzeIOTCSession) -> dict[str, str | int]:
     codec, rate = sess.identify_audio_codec()
     logger.info(f"🔊 Audio Enabled [Source={codec.upper()}/{rate:,}Hz]")
 
+    codec_out = ""
     if codec_out := env_bool("AUDIO_CODEC"):
         logger.info(f"[AUDIO] Re-Encode Enabled [AUDIO_CODEC={codec_out}]")
     elif rate > 8000 or codec.lower() == "s16le":
