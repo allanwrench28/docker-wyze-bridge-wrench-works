@@ -61,29 +61,12 @@ See the [supported cameras](#supported-cameras) section for additional informati
 
 **New to Wyze Bridge?** Check out our guides:
 
-- 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - Complete setup guide for RTSP streaming
-- 🌐 **[HTTP/Browser Streaming Guide](HTTP-STREAMING.md)** - Setup guide for HLS, WebRTC, and browser-compatible streams
-- 💻 **[Command Reference](COMMAND_REFERENCE.md)** - Quick reference for where to run commands
-- 💻 **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to this project
 - 📖 **[Quick Start Guide](QUICK_START.md)** - Get streaming in 5 minutes! (Includes prerequisite setup)
 - 📚 **[Complete Setup Guide](SETUP_GUIDE.md)** - Comprehensive walkthrough with troubleshooting
-- 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - RTSP-specific configuration
+- 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - Complete setup guide for RTSP streaming
 - 🌐 **[HTTP/Browser Streaming Guide](HTTP-STREAMING.md)** - Browser-compatible streaming & OctoPrint integration
 - 💻 **[Command Reference](COMMAND_REFERENCE.md)** - Quick reference for where to run commands
-
-### 🤔 Which Guide Should I Use?
-
-**Choose based on your situation:**
-
-| If you... | Use this guide |
-|-----------|---------------|
-| 🆕 Are brand new to this project | → [Quick Start Guide](QUICK_START.md) |
-| ❓ Don't know where to run commands | → [Command Reference](COMMAND_REFERENCE.md) |
-| 🔧 Need detailed step-by-step help | → [Complete Setup Guide](SETUP_GUIDE.md) |
-| 📺 Just want RTSP streaming quickly | → [RTSP Setup Guide](RTSP-SETUP.md) |
-| 🌐 Need browser/HTTP streaming or OctoPrint | → [HTTP Streaming Guide](HTTP-STREAMING.md) |
-| 💻 Want to contribute code | → [Contributing Guide](CONTRIBUTING.md) |
-| ❌ Getting "command not found" errors | → [Command Reference](COMMAND_REFERENCE.md) |
+- 💻 **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to this project
 
 > **📝 Note:** All commands in this guide should be run in your terminal/command prompt:
 > - **Windows:** Command Prompt or PowerShell (NOT Python terminal)
@@ -420,17 +403,6 @@ This fork provides additional documentation to help maintain and contribute to t
   - Prerequisites checklist
   - Common tasks step-by-step
   - Troubleshooting "command not found" errors
-
-- **[RTSP-SETUP.md](RTSP-SETUP.md)** - RTSP-specific setup
-  - Quick RTSP configuration
-  - Testing with VLC and FFmpeg
-  - Home Assistant integration
-
-- **[HTTP-STREAMING.md](HTTP-STREAMING.md)** - HTTP/Browser streaming guide
-  - HLS streaming for web browsers
-  - HTTP snapshots for OctoPrint
-  - WebRTC low-latency streaming
-  - Browser compatibility guide
 
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributing to this fork
   - How to report issues effectively
