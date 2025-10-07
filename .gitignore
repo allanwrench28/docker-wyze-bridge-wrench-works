@@ -7,4 +7,5 @@
 *.pickle
 *.env
 *.pyc
+__pycache__/
 !/app/.env
