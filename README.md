@@ -61,8 +61,6 @@ See the [supported cameras](#supported-cameras) section for additional informati
 
 **New to Wyze Bridge?** Check out our guides:
 
-- 📖 **[Quick Start Guide](QUICK_START.md)** - Get streaming in 5 minutes! (Includes prerequisite setup)
-- 📚 **[Complete Setup Guide](SETUP_GUIDE.md)** - Comprehensive walkthrough with troubleshooting
 - 🔧 **[RTSP Setup Guide](RTSP-SETUP.md)** - Complete setup guide for RTSP streaming
 - 🌐 **[HTTP/Browser Streaming Guide](HTTP-STREAMING.md)** - Browser-compatible streaming & OctoPrint integration
 - 💻 **[Command Reference](COMMAND_REFERENCE.md)** - Quick reference for where to run commands
